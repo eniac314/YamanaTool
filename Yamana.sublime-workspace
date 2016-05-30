@@ -1,0 +1,1106 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"SV",
+				"SVGE"
+			],
+			[
+				"a",
+				"auto"
+			],
+			[
+				"inlin",
+				"inline-block"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"ps",
+				"position"
+			],
+			[
+				"co",
+				"coordsToSVGs"
+			],
+			[
+				"coo",
+				"coords'"
+			],
+			[
+				"c",
+				"coords"
+			],
+			[
+				"to",
+				"toScale"
+			],
+			[
+				"h",
+				"hStr"
+			],
+			[
+				"w",
+				"wStr"
+			],
+			[
+				"S",
+				"SVG"
+			],
+			[
+				"Co",
+				"Coords"
+			],
+			[
+				"No",
+				"NoOp"
+			],
+			[
+				"up",
+				"updateDefSize"
+			],
+			[
+				"upda",
+				"updateDefSize"
+			],
+			[
+				"u",
+				"updateDefSize"
+			],
+			[
+				"de",
+				"defSize"
+			],
+			[
+				"upd",
+				"updateDefSize"
+			],
+			[
+				"cen",
+				"centerStyle"
+			],
+			[
+				"curre",
+				"currentPic"
+			],
+			[
+				"pic",
+				"picSize"
+			],
+			[
+				"vp",
+				"vpSize"
+			],
+			[
+				"pi",
+				"picSize"
+			],
+			[
+				"A",
+				"Attribute"
+			],
+			[
+				"ini",
+				"initVpSize"
+			],
+			[
+				"v",
+				"vpWidth"
+			],
+			[
+				"lb",
+				"lbSizeUpdate"
+			],
+			[
+				"l",
+				"lbSizeUpdate"
+			],
+			[
+				"off",
+				"offsetHeight"
+			],
+			[
+				"sen",
+				"sendLightBoxSize"
+			],
+			[
+				"o",
+				"offsetHeight"
+			],
+			[
+				"elm",
+				"elmApp"
+			],
+			[
+				"se",
+				"sendAdjustMargin"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"pa",
+				"padding"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"clas",
+				"classList"
+			],
+			[
+				"sc",
+				"scrollTop"
+			],
+			[
+				"scr",
+				"script	Tag"
+			],
+			[
+				"scrol",
+				"scrollY"
+			],
+			[
+				"scro",
+				"scrollYUpdate"
+			],
+			[
+				"Scr",
+				"scrollY"
+			],
+			[
+				"no",
+				"noScroll'"
+			],
+			[
+				"ma",
+				"margin"
+			],
+			[
+				"max",
+				"max-width"
+			],
+			[
+				"d",
+				"display"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"he",
+				"height"
+			],
+			[
+				"C",
+				"Close"
+			],
+			[
+				"f",
+				"folder"
+			],
+			[
+				"s",
+				"Sketching"
+			],
+			[
+				"D",
+				"Digital"
+			],
+			[
+				"li",
+				"lightbox'"
+			],
+			[
+				"L",
+				"Lightbox"
+			],
+			[
+				"St",
+				"State"
+			],
+			[
+				"Ste",
+				"Sketching"
+			],
+			[
+				"ga",
+				"gallery"
+			],
+			[
+				"g",
+				"gallery"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"mini",
+				"miniLightbox"
+			],
+			[
+				"font-sy",
+				"font-style"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"left",
+				"margin-left"
+			],
+			[
+				"map",
+				"mapBig"
+			],
+			[
+				"petit",
+				"petitPat"
+			],
+			[
+				"découvre",
+				"découvrez"
+			],
+			[
+				"init",
+				"init'"
+			],
+			[
+				"loc",
+				"locationSearch"
+			],
+			[
+				"margin",
+				"margin-right"
+			],
+			[
+				"min",
+				"min-width"
+			],
+			[
+				"cl",
+				"clear"
+			],
+			[
+				"le",
+				"margin-left"
+			],
+			[
+				"back",
+				"background-image"
+			],
+			[
+				"mu",
+				"musee"
+			],
+			[
+				"bo",
+				"body'"
+			],
+			[
+				"sha",
+				"box-shadow"
+			],
+			[
+				"bor",
+				"border-style"
+			],
+			[
+				"p",
+				"padding-bottom"
+			],
+			[
+				"bott",
+				"margin-bottom"
+			],
+			[
+				"prin",
+				"printempsEte"
+			],
+			[
+				"printe",
+				"printempsEte"
+			],
+			[
+				"pe",
+				"peri"
+			],
+			[
+				"peri",
+				"Periscolaire"
+			],
+			[
+				"com",
+				"commune"
+			],
+			[
+				"Ani",
+				"Animaux"
+			],
+			[
+				"auto",
+				"AutomneHiver"
+			],
+			[
+				"di",
+				"display"
+			],
+			[
+				"load",
+				"loading"
+			],
+			[
+				"Fes",
+				"festivalArt"
+			],
+			[
+				"F",
+				"festivalArt"
+			],
+			[
+				"ta",
+				"takeAndRotate"
+			],
+			[
+				"au",
+				"automneFx"
+			],
+			[
+				"hiver",
+				"hiverFx"
+			],
+			[
+				"G",
+				"GalleryAction"
+			],
+			[
+				"anima",
+				"animationState"
+			],
+			[
+				"x",
+				"xOffset"
+			],
+			[
+				"An",
+				"animationState"
+			],
+			[
+				"T",
+				"TimeStep"
+			],
+			[
+				"Galle",
+				"Gallery"
+			],
+			[
+				"Ga",
+				"Gallery"
+			],
+			[
+				"Gal",
+				"GalleryAction"
+			],
+			[
+				"sub",
+				"subContainerData"
+			],
+			[
+				"lig",
+				"lightboxHtml"
+			],
+			[
+				"key",
+				"keyToAct"
+			],
+			[
+				"b",
+				"biStream"
+			],
+			[
+				"Li",
+				"Lightbox"
+			],
+			[
+				"Au",
+				"AutomneHiver"
+			],
+			[
+				"view",
+				"viewGallery"
+			],
+			[
+				"gal",
+				"galleries"
+			],
+			[
+				"th",
+				"thumbs"
+			],
+			[
+				"curr",
+				"currentPic"
+			],
+			[
+				"cu",
+				"currentPic"
+			],
+			[
+				"thu",
+				"thumb"
+			],
+			[
+				"fli",
+				"filename"
+			],
+			[
+				"Str",
+				"String"
+			],
+			[
+				"Stra",
+				"Streams"
+			],
+			[
+				"new",
+				"newRight"
+			],
+			[
+				"cur",
+				"current"
+			],
+			[
+				"re",
+				"retrieve"
+			],
+			[
+				"in",
+				"indexStream"
+			],
+			[
+				"marg",
+				"margin-bottom"
+			],
+			[
+				"bar",
+				"barDeNuit"
+			],
+			[
+				"Autres",
+				"AutresPublications"
+			],
+			[
+				"resE",
+				"resElecPubli"
+			],
+			[
+				"nu",
+				"noSubmenu"
+			],
+			[
+				"murol",
+				"murolInfos"
+			],
+			[
+				"Muro",
+				"MurolInfos"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "yamana.html",
+			"settings":
+			{
+				"buffer_size": 784,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Yamana.elm",
+			"settings":
+			{
+				"buffer_size": 3396,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "css/stylemap.css",
+			"settings":
+			{
+				"buffer_size": 705,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 311.0,
+		"last_filter": "Package Control: i",
+		"selected_items":
+		[
+			[
+				"Package Control: i",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			],
+			[
+				"package re",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"elm",
+				"Elm Language Support: Autoset Docs Path"
+			],
+			[
+				"el",
+				"Elm Build System: Set Output Path"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 146.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/eniac314/prog/elm/homePage/test.html",
+		"/home/eniac314/prog/elm/homePage/index.html",
+		"/home/eniac314/prog/elm/homePage/css/style.css",
+		"/home/eniac314/prog/elm/homePage/elm-package.json",
+		"/home/eniac314/prog/elm/homePage/Gruntfile.js",
+		"/home/eniac314/prog/elm/homePage/src/Lightbox.elm",
+		"/home/eniac314/prog/elm/homePage/src/HomePage.elm",
+		"/home/eniac314/prog/elm/mairieMurol/src/Annee2016.elm",
+		"/home/eniac314/prog/elm/homePage/src/Gallery.elm",
+		"/home/eniac314/prog/elm/homePage/src/Listing.elm",
+		"/home/eniac314/prog/elm/homePage/yamana.html",
+		"/home/eniac314/prog/elm/homePage/css/stylemap.css",
+		"/home/eniac314/Documents/YamanaTool/js/jquery.mapify.js",
+		"/home/eniac314/Documents/YamanaTool/css/jquery.mapify.css",
+		"/home/eniac314/prog/elm/homePage/src/Yamana.elm",
+		"/home/eniac314/prog/elm/mairieMurol/src/Animaux.elm",
+		"/home/eniac314/prog/elm/mairieMurol/Gruntfile.js",
+		"/home/eniac314/prog/elm/homePage/Yamana.elm",
+		"/home/eniac314/Documents/YamanaTool/map.html",
+		"/home/eniac314/prog/elm/mairieMurol/index.html",
+		"/home/fayong/prog/elm/homePage/css/style.css",
+		"/home/fayong/prog/elm/mairieMurol/index.html",
+		"/home/fayong/prog/elm/mairieMurol/js/murol.js",
+		"/home/fayong/prog/elm/mairieMurol/src/AutomneHiver.elm",
+		"/home/fayong/prog/elm/homePage/src/Streams.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Murol.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/PatrimoinePhoto.elm",
+		"/home/fayong/prog/elm/memo grunt",
+		"/home/fayong/prog/elm/mairieMurol/14Juillet.html",
+		"/home/fayong/prog/elm/mairieMurol/src/14Juillet.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Phototheque.elm",
+		"/home/fayong/prog/elm/mairieMurol/styles/temp.css",
+		"/home/fayong/prog/elm/mairieMurol/styles/winter.css",
+		"/home/fayong/prog/elm/mairieMurol/src/Lightbox.elm",
+		"/home/fayong/prog/elm/mairieMurol/DécouvrirMurol.html",
+		"/home/fayong/prog/elm/mairieMurol/src/UrlParsing.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/AutresPublications.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/TiledMenu.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/StarTable.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Hebergements.elm",
+		"/home/fayong/prog/elm/mairieMurol/styles/style.css",
+		"/home/fayong/prog/elm/mairieMurol/src/DecouvrirMurol.elm",
+		"/home/fayong/prog/elm/mairieMurol/Gruntfile.js",
+		"/home/fayong/prog/elm/mairieMurol/src/AssociationsList.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Sortir.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/SallesFetes.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Associations.elm",
+		"/home/fayong/prog/elm/mairieMurol/Photothèque.html",
+		"/home/fayong/prog/elm/mairieMurol/src/Animation.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/SportsDetente.elm",
+		"/home/fayong/prog/elm/mairieMurol/Animation.html",
+		"/home/fayong/prog/elm/mairieMurol/src/HorairesContact.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/BulletinsMunicipaux.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/PrintempsEte.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/ConseilMunicipal.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Gallery.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/OfficeTourisme.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Restaurants.elm",
+		"/home/fayong/prog/elm/mairieMurol/PatrimoinePhoto.html",
+		"/home/fayong/prog/elm/mairieMurol/src/Documentation.elm",
+		"/home/fayong/prog/elm/mairieMurol/assets/La commune de Murol 1er mars.html",
+		"/home/fayong/prog/elm/mairieMurol/src/Medievales.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/AnimationEstivale.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/NumerosUrgences.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/FestivalArt.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/JourneeMurolais.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Annee2016.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Deliberations.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/MurolInfos.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/GestionDesRisques.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Streams.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/VieScolaire.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Periscolaire.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Transports.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Animaux.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/LaCommune.elm",
+		"/home/fayong/prog/elm/mairieMurol/PériEtExtra-scolaire.html",
+		"/home/fayong/prog/elm/mairieMurol/src/SportDetente.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/VieScolaireOld.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Test.elm",
+		"/home/fayong/prog/elm/mairieMurol/Annee2016.html",
+		"/home/fayong/prog/elm/mairieMurol/FestivalArt.html",
+		"/home/fayong/prog/elm/mairieMurol/AutomneHiver.html",
+		"/home/fayong/prog/elm/mairieMurol/src/Effects.elm",
+		"/media/fayong/e47f13d0-594b-4f4e-98df-fa85b5729e10/home/damanska/Documents/prog/progLan/test.sml",
+		"/home/fayong/prog/elm/mairieMurol/Patrimoine.html",
+		"/home/fayong/prog/elm/mairieMurol/src/Patrimoine.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/VillageFleuri.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Tourisme.elm",
+		"/home/fayong/prog/elm/mairieMurol/AnimationEstivale.html",
+		"/home/fayong/prog/elm/mairieMurol/src/Publications.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/SideMenu.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Commerces.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Elections.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/VosDemarches.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Entreprises.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/CartePlan.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Artistes.elm",
+		"/home/fayong/prog/elm/mairieMurol/Transports.html",
+		"/home/fayong/prog/elm/mairieMurol/Documentation.html",
+		"/home/fayong/prog/elm/mairieMurol/src/Agriculture.elm",
+		"/home/fayong/prog/elm/mairieMurol/NumerosD'urgences.html",
+		"/home/fayong/prog/elm/mairieMurol/src/AgricultureOld.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Covoiturage.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/ArtEtMusique.elm",
+		"/home/fayong/prog/elm/mairieMurol/Hébergements.html",
+		"/home/fayong/prog/elm/mairieMurol/src/EntreprisesOld.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Artisanat.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/LesSeniors.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Scroll.elm",
+		"/home/fayong/prog/elm/mairieMurol/murol.html",
+		"/home/fayong/prog/elm/mairieMurol/src/GestionDesDechets.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/elm-package.json",
+		"/home/fayong/prog/elm/mairieMurol/src/Commissions.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/CMJ.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/Cinema.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/CCAS.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/ArtisanatArt.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/SportEtDetentes.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/QuinzaineCom.elm",
+		"/home/fayong/prog/elm/mairieMurol/src/OffresEmploi.elm",
+		"/home/fayong/prog/elm/mairieMurol/Agriculture.html",
+		"/home/fayong/prog/elm/mairieMurol/ArtEtMusique.html",
+		"/home/fayong/prog/elm/mairieMurol/Artisanat.html",
+		"/home/fayong/prog/elm/mairieMurol/ArtisanatD'art.html",
+		"/home/fayong/prog/elm/mairieMurol/Associations.html",
+		"/home/fayong/prog/elm/mairieMurol/CCAS.html",
+		"/home/fayong/prog/elm/mairieMurol/Cinema.html"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 96.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"img",
+			"pointer",
+			"defPi",
+			"target",
+			"}",
+			"toS",
+			"overf",
+			"over",
+			"scr",
+			"overflo",
+			"scroll",
+			"toS",
+			"scroll",
+			"toS",
+			"scroll",
+			"\"\"",
+			"id",
+			"close",
+			"display",
+			"target",
+			"loaded",
+			"loadi",
+			"loadin",
+			"[",
+			"decou",
+			"lightb",
+			"light",
+			"Content",
+			"Small",
+			"miniLightbox",
+			"fa-",
+			"decou",
+			"medievales",
+			"pho",
+			"pho\n\n",
+			"office",
+			"Tarta",
+			"photo",
+			"ocobre",
+			"h2",
+			"toUrl",
+			"capital",
+			"loader",
+			"load",
+			"img",
+			"tour",
+			"publi",
+			"bigLeaf",
+			"murol",
+			"decouvrir",
+			"initAt",
+			"init",
+			"touri",
+			"display",
+			"intro",
+			"touris",
+			"null",
+			"logos",
+			"link",
+			"sha",
+			" \n",
+			"legend",
+			"chunk",
+			"gest",
+			"FX",
+			"sport",
+			"wrapp",
+			"festival",
+			"init'",
+			"update'",
+			"view'",
+			"  \n",
+			"diaporama",
+			"defPi",
+			"xOffSe",
+			"xOff",
+			"xO",
+			"nameList",
+			"GoTo",
+			"none",
+			"]",
+			"folder",
+			"Dict.get",
+			"get",
+			"sport",
+			"/images/tiles/hebergements/placeholder.jpg",
+			"link",
+			"renderBu",
+			"assocs",
+			"assoc",
+			"noS",
+			"Murol",
+			"subMenu",
+			"Tile",
+			"Dict.map",
+			"horai",
+			"horaire",
+			"plugin",
+			"plu",
+			"footer",
+			"mail",
+			"horaires",
+			"mail",
+			"horai",
+			"mail",
+			";\n",
+			".divers",
+			"min-height",
+			"misc",
+			"a:hover",
+			"tiled",
+			"PT Ser",
+			"defArt",
+			"Entreprise",
+			"murolI",
+			"murol",
+			"tag",
+			"subCon",
+			"renderNewsLi",
+			"renderNews",
+			"footer",
+			"mail",
+			"misc",
+			"renderMis",
+			"renderMi",
+			"entry",
+			"renderMis",
+			"logos"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"g14Juillet",
+			"caption",
+			"journeeMurolais",
+			"init",
+			"update",
+			"view",
+			"moving",
+			"",
+			"defAgri",
+			"Agriculteur",
+			"",
+			"&amp",
+			"",
+			"newsdescr",
+			"newsbody",
+			"makeRow",
+			"makeTable"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "yamana.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 784,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/Yamana.elm",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3396,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								365,
+								365
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Elm Language Support/Syntaxes/Elm.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "css/stylemap.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 705,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								175,
+								175
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.elm_type":
+	{
+		"height": 0.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "Yamana.sublime-project",
+	"replace":
+	{
+		"height": 66.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"goto",
+				"~/prog/elm/mairieMurol/src/Phototheque.elm"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

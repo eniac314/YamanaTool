@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yamana Garden</title>
+  <script type="text/javascript" src="/js/yamana.js"></script>
+  <!-- <script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script>> -->
+  <link rel="stylesheet" type="text/css" href="css/stylemap.css">
+<!--   <link rel="stylesheet" href="/fonts/font-awesome-4.5.0/css/font-awesome.min.css"> -->
+</head>
+
+<body onresize="sendVpSize()">
+  <a name="top" id="top"></a>
+
+  <div id="elm-app"></div>
+
+
+<script type="text/javascript">
+  var elmDiv = document.getElementById('elm-app');
+  
+  var vpWidth = document.documentElement.clientWidth; 
+  var vpHeight = document.documentElement.clientHeight;
+
+  var elmApp = Elm.embed(Elm.Yamana, elmDiv, {vpSizePort: [vpWidth, vpHeight], initVpSize: [vpWidth, vpHeight]});
+
+  sendVpSize = function(){
+    
+    var vpWidth = document.documentElement.clientWidth; 
+    var vpHeight = document.documentElement.clientHeight;
+
+    elmApp.ports.vpSizePort.send([vpWidth,vpHeight]);
+  }
+
+</script>
+</body>
+</html>
