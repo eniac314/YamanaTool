@@ -231,7 +231,7 @@ Elm.Yamana.make = function (_elm) {
               ,A2(renderSideTab,address,model)]))]));
    });
    var Model = F4(function (a,b,c,d) {    return {currentArea: a,areas: b,desiredWidth: c,vpSize: d};});
-   var initialModel = A4(Model,$Maybe.Nothing,pts,800,initVpSize);
+   var initialModel = A4(Model,$Maybe.Nothing,pts,600,initVpSize);
    var app = $StartApp.start({init: {ctor: "_Tuple2",_0: initialModel,_1: $Effects.none},view: view,update: update,inputs: _U.list([vpSizeUpdate])});
    var main = app.html;
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
