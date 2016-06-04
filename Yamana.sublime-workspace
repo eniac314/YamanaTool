@@ -4,36 +4,76 @@
 		"selected_items":
 		[
 			[
+				"vp",
+				"vpWidth"
+			],
+			[
+				"toS",
+				"toString"
+			],
+			[
+				"co",
+				"computeMargin"
+			],
+			[
+				"Re",
+				"Resize"
+			],
+			[
+				"ma",
+				"margin"
+			],
+			[
+				"pa",
+				"padding"
+			],
+			[
+				"bor",
+				"border-radius"
+			],
+			[
+				"mar",
+				"margin-top"
+			],
+			[
+				"bo",
+				"border"
+			],
+			[
 				"SV",
-				"SVGE"
+				"SVGA"
+			],
+			[
+				"cur",
+				"curAr"
+			],
+			[
+				"cu",
+				"currentArea"
+			],
+			[
+				"c",
+				"curAr"
 			],
 			[
 				"a",
-				"auto"
+				"address"
+			],
+			[
+				"on",
+				"onMouseOver"
 			],
 			[
 				"inlin",
 				"inline-block"
 			],
 			[
-				"mar",
-				"margin"
-			],
-			[
 				"ps",
 				"position"
 			],
 			[
-				"co",
-				"coordsToSVGs"
-			],
-			[
 				"coo",
 				"coords'"
-			],
-			[
-				"c",
-				"coords"
 			],
 			[
 				"to",
@@ -92,10 +132,6 @@
 				"picSize"
 			],
 			[
-				"vp",
-				"vpSize"
-			],
-			[
 				"pi",
 				"picSize"
 			],
@@ -144,10 +180,6 @@
 				"text-align"
 			],
 			[
-				"pa",
-				"padding"
-			],
-			[
 				"wi",
 				"width"
 			],
@@ -178,10 +210,6 @@
 			[
 				"no",
 				"noScroll'"
-			],
-			[
-				"ma",
-				"margin"
 			],
 			[
 				"max",
@@ -304,16 +332,8 @@
 				"musee"
 			],
 			[
-				"bo",
-				"body'"
-			],
-			[
 				"sha",
 				"box-shadow"
-			],
-			[
-				"bor",
-				"border-style"
 			],
 			[
 				"p",
@@ -452,10 +472,6 @@
 				"currentPic"
 			],
 			[
-				"cu",
-				"currentPic"
-			],
-			[
 				"thu",
 				"thumb"
 			],
@@ -474,10 +490,6 @@
 			[
 				"new",
 				"newRight"
-			],
-			[
-				"cur",
-				"current"
 			],
 			[
 				"re",
@@ -502,18 +514,6 @@
 			[
 				"resE",
 				"resElecPubli"
-			],
-			[
-				"nu",
-				"noSubmenu"
-			],
-			[
-				"murol",
-				"murolInfos"
-			],
-			[
-				"Muro",
-				"MurolInfos"
 			]
 		]
 	},
@@ -523,7 +523,7 @@
 			"file": "yamana.html",
 			"settings":
 			{
-				"buffer_size": 784,
+				"buffer_size": 1083,
 				"line_ending": "Unix"
 			}
 		},
@@ -531,7 +531,7 @@
 			"file": "src/Yamana.elm",
 			"settings":
 			{
-				"buffer_size": 3396,
+				"buffer_size": 7203,
 				"line_ending": "Unix"
 			}
 		},
@@ -539,7 +539,7 @@
 			"file": "css/stylemap.css",
 			"settings":
 			{
-				"buffer_size": 705,
+				"buffer_size": 1679,
 				"line_ending": "Unix"
 			}
 		}
@@ -609,13 +609,16 @@
 	},
 	"file_history":
 	[
-		"/home/eniac314/prog/elm/homePage/test.html",
+		"/home/eniac314/prog/elm/mairieMurol/styles/style.css",
 		"/home/eniac314/prog/elm/homePage/index.html",
+		"/home/eniac314/prog/elm/homePage/src/HomePage.elm",
+		"/home/eniac314/prog/elm/mairieMurol/src/Utils.elm",
+		"/home/eniac314/prog/elm/mairieMurol/src/Murol.elm",
+		"/home/eniac314/prog/elm/homePage/test.html",
 		"/home/eniac314/prog/elm/homePage/css/style.css",
 		"/home/eniac314/prog/elm/homePage/elm-package.json",
 		"/home/eniac314/prog/elm/homePage/Gruntfile.js",
 		"/home/eniac314/prog/elm/homePage/src/Lightbox.elm",
-		"/home/eniac314/prog/elm/homePage/src/HomePage.elm",
 		"/home/eniac314/prog/elm/mairieMurol/src/Annee2016.elm",
 		"/home/eniac314/prog/elm/homePage/src/Gallery.elm",
 		"/home/eniac314/prog/elm/homePage/src/Listing.elm",
@@ -733,10 +736,7 @@
 		"/home/fayong/prog/elm/mairieMurol/Agriculture.html",
 		"/home/fayong/prog/elm/mairieMurol/ArtEtMusique.html",
 		"/home/fayong/prog/elm/mairieMurol/Artisanat.html",
-		"/home/fayong/prog/elm/mairieMurol/ArtisanatD'art.html",
-		"/home/fayong/prog/elm/mairieMurol/Associations.html",
-		"/home/fayong/prog/elm/mairieMurol/CCAS.html",
-		"/home/fayong/prog/elm/mairieMurol/Cinema.html"
+		"/home/fayong/prog/elm/mairieMurol/ArtisanatD'art.html"
 	],
 	"find":
 	{
@@ -752,9 +752,11 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"grad",
+			"Coords",
 			"img",
 			"pointer",
 			"defPi",
@@ -880,9 +882,7 @@
 			"misc",
 			"renderMis",
 			"renderMi",
-			"entry",
-			"renderMis",
-			"logos"
+			"entry"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -890,6 +890,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Area",
 			"g14Juillet",
 			"caption",
 			"journeeMurolais",
@@ -926,15 +927,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 784,
+						"buffer_size": 1083,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								882,
+								882
 							]
 						],
 						"settings":
@@ -956,22 +957,23 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3396,
+						"buffer_size": 7203,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								365,
-								365
+								5587,
+								5587
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Elm Language Support/Syntaxes/Elm.tmLanguage",
 							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -986,22 +988,23 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 705,
+						"buffer_size": 1679,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								175,
-								175
+								773,
+								773
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/CSS/CSS.sublime-syntax",
 							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1056,7 +1059,7 @@
 	"project": "Yamana.sublime-project",
 	"replace":
 	{
-		"height": 66.0
+		"height": 64.0
 	},
 	"save_all_on_build": true,
 	"select_file":
