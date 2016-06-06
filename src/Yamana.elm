@@ -34,7 +34,7 @@ view address model =
   div [id "container",computeWMargin (.vpSize model)]
       [div [id "mapApp", computeVMargin (.vpSize model)] 
            [div [ id "mapContainer"]
-                [ img [src "mapPrototype.png"
+                [ img [src "images/mapPrototype.png"
                       , usemap "#imgmap2016528221332"
                       , width 1000
                       , height 771

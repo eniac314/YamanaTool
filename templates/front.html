@@ -1,0 +1,24 @@
+{%extends "base.html"%}
+
+{%block content%}
+
+<div id="main">
+<h1 id="title"></h1>
+
+<table>
+	<tr>
+	{% set i = 0 %}
+	{% for c in cats%}
+		<td class="category"><div id="catTitle"><a href={{ "/" ~ c[0] }}>{{c[0].replace("_"," ").capitalize()}}</a></div><p>{{c[1]}}</p></td>
+		{% set i = i + 1 %}
+		{% if i % 4 == 0 %}
+			</tr>
+			<tr>
+			{% set i = 0%}
+		{% endif %}
+	{% endfor %}
+	</tr>
+</table>
+</div>
+
+{% endblock %}   

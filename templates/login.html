@@ -1,0 +1,45 @@
+{%extends "base.html"%}
+
+{%block content%}
+
+
+<div id="main">
+
+<div id="form">
+	<h1>Login</h1>
+	<form method="post">
+	<table>
+	<tr>
+	<td>
+		<label for = "username">Username:</label>
+	</td>
+	<td>
+		<input name = "username" id = "username" type = "text" value={{usr}}>
+	</td>
+	<td>
+		<span class = "error"> {{wrgUsr}} </span>
+	</td>
+	</tr>
+	<tr>
+	<td>
+		<label for = "password">Password:</label>
+	</td>
+	<td>	
+		<input name = "password" id = "password" type = "password">
+	</td>
+	<td>	
+		<span class = "error"> {{wrgPswd}} </span>
+	</td>
+	</tr>
+	</table>
+	<br>
+	<br>
+	<span id="submit">
+	<input type="submit" value="press Here!">
+	</span>
+	</form>
+	<p class = "error">{{error}}</p>
+</div>
+
+</div>
+{%endblock%}

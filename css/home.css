@@ -1,0 +1,36 @@
+
+#mapApp{
+	text-align:center; 
+}
+
+.picContainer {
+  display: inline-block;
+  width: 45%;
+  margin: 2%;
+}
+
+.picContainer a {
+	outline: none;
+	text-decoration: none;
+}
+
+.picContainer a:hover img, .picContainer a:hover p {
+	box-shadow: 3px 3px 3px black;
+}
+
+.picContainer img{
+	width: 100%;
+	border-radius: 0.5em;
+}
+
+.picContainer p {
+  display: block;
+  background-color: black;
+  color:#DAF79B;
+  border-radius: 0.2em;
+  border-style: solid;
+  border-color: white;
+  text-align: center;
+  padding: 0.5em;
+  margin-top: 0;
+}

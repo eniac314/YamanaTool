@@ -1,0 +1,47 @@
+{%extends "base.html"%}
+
+{%block content%}
+
+<div id="main">
+
+<table id="wordList">
+	<tr>
+		<td id="hideChars">隱藏漢字</td>
+		<td id="hideSpell">隱藏發音</td>
+		<td id="hideDef">隱藏翻譯</td>
+	</tr>
+
+	{% set i = 0 %}
+	{% for w in wordList %}
+		{% if i % 2 == 0 %}
+			{% set wordClass = "word"%}
+		{% else %}
+			{% set wordClass = "wordalt"%}
+		{% endif %}
+		{% set i = i + 1 %}
+
+		<tr class={{wordClass}}>
+			<td class="chars">
+			<span class="hanzi" >
+			{% for c in w[0]%}<span style={{c[1]}}>{{c[0]}}</span>{% endfor %}
+			</span>
+			</td>
+			<td class="spell"><span class="pinyin">{{w[1]}}</span></td>
+			<td class="def"><span class="fanyi">{{w[2]}}</span></td>
+		</tr>
+	{% endfor %}
+</table>
+<br>
+
+<form method="post" id="button1">
+	<input type="hidden" name="edit" value="yep">
+	<input type="submit" value="Edit page">
+</form>
+<form method="post" id="button2">
+	<input type="hidden" name="back" value="yep">
+	<input type="submit" value="Back to front">
+</form>
+<br>
+
+</div>
+{%endblock%}

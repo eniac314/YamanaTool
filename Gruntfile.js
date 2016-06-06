@@ -4,13 +4,16 @@ module.exports = function(grunt) {
     elm: {
       compile: {
         files: {
-          "./js/yamana.js": ["./src/Yamana.elm"]
+          "./js/yamana.js": ["./src/Yamana.elm"],
+          "./js/home.js": ["./src/Home.elm"]
         }
       }
     },
     watch: {
       elm: {
-        files: ["./src/Yamana.elm"],
+        files: ["./src/Yamana.elm"
+               ,"./src/Home.elm"
+               ],
         tasks: ["elm"]
       }
     },

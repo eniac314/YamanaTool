@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html" charset="utf8">
+	
+	<link rel="stylesheet" href="/stylesheets/base.css">
+	{% if extraCss %}
+	<link rel="stylesheet" href={{ "/stylesheets/" ~ extraCss }}>
+	{% endif %}
+    
+    <script src="/js/base.js"></script>
+	{% if extraJs %}
+	<script src={{ "/js/" ~ extraJs }}></script>
+    {% endif %}
+
+	
+	{% if pageAdr %}
+	<title>{{(pageAdr.replace("_"," ")).capitalize()}} - Chinese Words</title>
+	{% else %}
+	<title>Yamana Garden</title>
+	{% endif %}
+</head>
+
+<body onresize="sendVpSize()">
+<a name="top" id="top"></a>
+
+	<div class="menu">
+		{% if signingUp %}
+			<a href="/login">login</a>
+		{% else %}	
+			{% if loggedout %}
+				<a href="/signup">signup</a>
+			{% else %}
+				<p>{{usr.capitalize() ~ " | "}}</p>
+				<a href="/logout">logout</a>
+			{% endif %}
+		{% endif %}
+	</div>
+
+	{%block content%}
+
+	{% endblock %}
+
+<script type="text/javascript">
+	sendVpSize = function(){
+    
+    var vpWidth = document.documentElement.clientWidth; 
+    var vpHeight = document.documentElement.clientHeight;
+
+    elmApp.ports.vpSizePort.send([vpWidth,vpHeight]);
+    }
+</script>
+
+</body>
+</html>

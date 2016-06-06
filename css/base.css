@@ -1,0 +1,36 @@
+body{
+  background-color: rgb(255,255,187);
+  margin:0;
+  padding: 0;
+}
+
+#container{
+  position: absolute;
+  top:0;
+  background-color: rgb(140,117,75);
+  margin:auto;
+  /*width: 80%;*/
+  /*margin-right: 10%;*/
+  /*margin-left:10%;*/
+  height: 100vh;
+  box-shadow: 5px 5px 5px black;
+}
+
+#mapApp{
+  margin: auto;
+  /*margin-top:3em;*/
+  padding: 1em;
+  display: block;
+  /*background:linear-gradient(to top, rgb(138,115,73), rgb(44,82,5));;*/
+  background-color: #A5926A;
+  position: relative;
+  width:1150px;
+  height: auto;
+  border-radius: 0.2em;
+  box-shadow: 5px 5px 5px black;
+}
+
+#mapApp div{
+  vertical-align: top;
+  display: inline-block;
+}

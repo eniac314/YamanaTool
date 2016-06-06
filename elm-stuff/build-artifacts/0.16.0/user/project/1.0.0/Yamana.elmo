@@ -221,7 +221,7 @@ Elm.Yamana.make = function (_elm) {
       _U.list([A2($Html.div,
               _U.list([$Html$Attributes.id("mapContainer")]),
               _U.list([A2($Html.img,
-                      _U.list([$Html$Attributes.src("mapPrototype.png")
+                      _U.list([$Html$Attributes.src("images/mapPrototype.png")
                               ,$Html$Attributes.usemap("#imgmap2016528221332")
                               ,$Html$Attributes.width(1000)
                               ,$Html$Attributes.height(771)
@@ -231,7 +231,7 @@ Elm.Yamana.make = function (_elm) {
               ,A2(renderSideTab,address,model)]))]));
    });
    var Model = F4(function (a,b,c,d) {    return {currentArea: a,areas: b,desiredWidth: c,vpSize: d};});
-   var initialModel = A4(Model,$Maybe.Nothing,pts,600,initVpSize);
+   var initialModel = A4(Model,$Maybe.Nothing,pts,800,initVpSize);
    var app = $StartApp.start({init: {ctor: "_Tuple2",_0: initialModel,_1: $Effects.none},view: view,update: update,inputs: _U.list([vpSizeUpdate])});
    var main = app.html;
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);

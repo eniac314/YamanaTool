@@ -1,0 +1,70 @@
+{%extends "base.html"%}
+
+{%block content%}
+
+<div id="main">
+<div id="newEntry">
+<form method="POST" autocomplete="off">
+	<label for = "hanzi">漢字</label>
+	<input type=text name="hanzi" id="hanzi" value="{{hanzi}}">
+
+	<label for = "pinyin">拼音</label>
+	<input type=text name="pinyin" id="pinyin" value="{{pinyin}}">
+	
+	<label for = "fanyi">翻譯</label>
+	<input type=text name="fanyi" id="fanyi" value="{{fanyi}}">
+	
+
+	<input type="submit" value="add new entry" id="editSubmit">
+</form>
+</div>
+
+<p class="error">{{error}}</p>
+
+
+{% if wordList %}
+<form id="wordListForm" method="post">
+	<table id="wordList">
+	{% set i = 0 %}
+	{% for w in wordList %}
+		{% if i % 2 == 0 %}
+			{% set wordClass = "word"%}
+		{% else %}
+			{% set wordClass = "wordalt"%}
+		{% endif %}
+		{% set i = i + 1 %}
+
+		<tr class={{wordClass}}>
+			<td class="chars">
+			<span class="hanzi">
+			{% for c in w[0]%}<span style={{c[1]}}>{{c[0]}}</span>{% endfor %}
+			</span>
+			</td>
+			<td class="spell"><span class="pinyin">{{w[1]}}</span></td>
+			<td class="def"><span class="fanyi">{{w[2]}}</span></td>
+			<td class="remove"><input type="checkbox" name="toErase" value={{w[3]}}></td>
+		</tr>
+	{% endfor %}
+	</table>
+	<input type="submit" value="delete selected items" id="delete">
+</form>
+
+<div id="buttons">	
+	<form method="post" id="button1">
+			<input type="hidden" name="deleteCat" value="yep">
+			<input type="submit" value="delete category">
+	</form>
+
+	<form method="post" id="button2">
+		<input type="hidden" name="done" value="yep">
+		<input type="submit" value="All done!">
+	</form>
+	<br>
+</div>
+
+
+	
+{% endif %}
+</div>
+
+{%endblock%}

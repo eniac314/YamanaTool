@@ -11446,27 +11446,23 @@ Elm.StartApp.make = function (_elm) {
    var Config = F4(function (a,b,c,d) {    return {init: a,update: b,view: c,inputs: d};});
    return _elm.StartApp.values = {_op: _op,start: start,Config: Config,App: App};
 };
-Elm.Yamana = Elm.Yamana || {};
-Elm.Yamana.make = function (_elm) {
+Elm.Home = Elm.Home || {};
+Elm.Home.make = function (_elm) {
    "use strict";
-   _elm.Yamana = _elm.Yamana || {};
-   if (_elm.Yamana.values) return _elm.Yamana.values;
+   _elm.Home = _elm.Home || {};
+   if (_elm.Home.values) return _elm.Home.values;
    var _U = Elm.Native.Utils.make(_elm),
    $Basics = Elm.Basics.make(_elm),
    $Debug = Elm.Debug.make(_elm),
-   $Dict = Elm.Dict.make(_elm),
    $Effects = Elm.Effects.make(_elm),
    $Html = Elm.Html.make(_elm),
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
-   $Html$Events = Elm.Html.Events.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $StartApp = Elm.StartApp.make(_elm),
    $String = Elm.String.make(_elm),
-   $Svg = Elm.Svg.make(_elm),
-   $Svg$Attributes = Elm.Svg.Attributes.make(_elm),
    $Task = Elm.Task.make(_elm);
    var _op = {};
    var computeWMargin = function (_p0) {
@@ -11491,86 +11487,6 @@ Elm.Yamana.make = function (_elm) {
    };
    var nullTag = A2($Html.span,_U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "display",_1: "none"}]))]),_U.list([]));
    var maybeElem = F2(function (s,f) {    return $String.isEmpty(s) ? nullTag : f(s);});
-   var toScale = F2(function (width,xs) {
-      var wScale = 1000 / $Basics.toFloat(width);
-      var ratio = 1000 / 771;
-      var hScale = 771 / ($Basics.toFloat(width) / ratio);
-      var helper = function (xs) {
-         var _p6 = xs;
-         if (_p6.ctor === "[]") {
-               return _U.list([]);
-            } else {
-               if (_p6._1.ctor === "::") {
-                     var h$ = $Basics.toFloat(_p6._1._0) / hScale;
-                     var w$ = $Basics.toFloat(_p6._0) / wScale;
-                     return A2($List._op["::"],$Basics.round(w$),A2($List._op["::"],$Basics.round(h$),helper(_p6._1._1)));
-                  } else {
-                     return _U.list([]);
-                  }
-            }
-      };
-      return A2($List.map,function (c) {    return _U.update(c,{points: helper(function (_) {    return _.points;}(c))});},xs);
-   });
-   var Area = F6(function (a,b,c,d,e,f) {    return {id: a,points: b,name: c,link: d,picture: e,descr: f};});
-   var defArea = A6(Area,0,_U.list([]),"","","","");
-   var pts = $Dict.fromList(A2($List.map,
-   function (v) {
-      return {ctor: "_Tuple2",_0: function (_) {    return _.id;}(v),_1: v};
-   },
-   _U.list([_U.update(defArea,{id: 1,points: _U.list([158,519,284,530,275,609,147,594]),name: "Greenhouse",picture: "greenhouse.JPG"})
-           ,_U.update(defArea,{id: 2,points: _U.list([212,403,206,456,235,455,261,458,258,433,269,405]),name: "Mandala garden",picture: "mandala.JPG"})
-           ,_U.update(defArea,
-           {id: 3
-           ,points: _U.list([735
-                            ,370
-                            ,768
-                            ,351
-                            ,773
-                            ,352
-                            ,787
-                            ,386
-                            ,785
-                            ,411
-                            ,773
-                            ,487
-                            ,773
-                            ,487
-                            ,769
-                            ,489
-                            ,768
-                            ,489
-                            ,741
-                            ,479
-                            ,741
-                            ,479
-                            ,741
-                            ,475
-                            ,735
-                            ,470
-                            ,740
-                            ,446
-                            ,744
-                            ,437
-                            ,748
-                            ,409
-                            ,745
-                            ,396
-                            ,734
-                            ,371])
-           ,name: "Radish field"
-           ,picture: "radish.JPG"})
-           ,_U.update(defArea,
-           {id: 4
-           ,points: _U.list([273,414,279,411,346,413,354,425,351,456,344,462,267,456,263,439,264,424,267,417])
-           ,name: "Fish pond"
-           ,picture: "pond.JPG"
-           ,descr: "The place with all the pretty fish"})
-           ,_U.update(defArea,
-           {id: 5
-           ,points: _U.list([663,451,765,494,751,514,743,551,743,573,749,612,749,612,748,622,731,624,722,616,707,599,695,578,676,588,644,529,644,496,663,450])
-           ,name: "Section B"
-           ,picture: "bsection.JPG"})
-           ,_U.update(defArea,{id: 6,points: _U.list([359,421,355,436,364,438,364,438,367,420]),name: "Shower",picture: "shower.JPG"})])));
    var initVpSize = Elm.Native.Port.make(_elm).inbound("initVpSize",
    "( Float, Float )",
    function (v) {
@@ -11586,127 +11502,53 @@ Elm.Yamana.make = function (_elm) {
                                                            ,_1: typeof v[1] === "number" ? v[1] : _U.badPort("a number",v[1])} : _U.badPort("an array",v);
    });
    var update = F2(function (action,model) {
-      var _p7 = action;
-      switch (_p7.ctor)
-      {case "NoOp": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
-         case "Reset": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
-         case "AreaHover": return {ctor: "_Tuple2"
-                                  ,_0: _U.update(model,{currentArea: A2($Dict.get,_p7._0,function (_) {    return _.areas;}(model))})
-                                  ,_1: $Effects.none};
-         default: return {ctor: "_Tuple2",_0: _U.update(model,{vpSize: _p7._0}),_1: $Effects.none};}
+      var _p6 = action;
+      if (_p6.ctor === "NoOp") {
+            return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
+         } else {
+            return {ctor: "_Tuple2",_0: _U.update(model,{vpSize: _p6._0}),_1: $Effects.none};
+         }
    });
    var Resize = function (a) {    return {ctor: "Resize",_0: a};};
    var vpSizeUpdate = A2($Signal.map,function (v) {    return Resize(v);},vpSizePort);
-   var Reset = {ctor: "Reset"};
-   var AreaHover = function (a) {    return {ctor: "AreaHover",_0: a};};
-   var coordsToArea = F2(function (addr,poly) {
-      var coords$ = A2($String.join,",",A2($List.map,$Basics.toString,function (_) {    return _.points;}(poly)));
-      return A3($Html.node,
-      "area",
-      _U.list([$Html$Attributes.title(function (_) {    return _.name;}(poly))
-              ,$Html$Attributes.shape("poly")
-              ,$Html$Attributes.coords(coords$)
-              ,A2($Html$Events.onClick,addr,AreaHover(function (_) {    return _.id;}(poly)))]),
-      _U.list([]));
-   });
-   var coordsToAreas = function (addr) {    return $List.map(coordsToArea(addr));};
-   var coordsToSVGs = F3(function (addr,model,dw) {
-      var hStr = $Basics.toString($Basics.round($Basics.toFloat(dw) / (1000 / 771)));
-      var wStr = $Basics.toString(dw);
-      var id$ = function () {
-         var _p8 = function (_) {    return _.currentArea;}(model);
-         if (_p8.ctor === "Nothing") {
-               return 0;
-            } else {
-               return function (_) {
-                  return _.id;
-               }(_p8._0);
-            }
-      }();
-      var poly = F2(function (addr,_p9) {
-         var _p10 = _p9;
-         var _p11 = _p10.id;
-         var content = _U.list([A2($Svg.polygon,
-         _U.list([$Svg$Attributes.points(A2($String.join,",",A2($List.map,$Basics.toString,_p10.points)))
-                 ,A2($Html$Events.onMouseOver,addr,AreaHover(_p11))
-                 ,A2($Html$Events.onMouseOut,addr,Reset)
-                 ,$Svg$Attributes.fill("blue")
-                 ,_U.eq(_p11,id$) ? $Svg$Attributes.$class("isCurrent") : $Svg$Attributes.$class("isNotCurrent")]),
-         _U.list([A3($Html.node,"title",_U.list([]),_U.list([$Svg.text(_p10.name)]))]))]);
-         return _U.eq(_p11,id$) ? A2($Svg.a,_U.list([$Svg$Attributes.xlinkHref(_p10.link)]),content) : A2($Svg.g,_U.list([]),content);
-      });
-      var coords$ = A2(toScale,dw,$Dict.values(function (_) {    return _.areas;}(model)));
-      return A2($Svg.svg,
-      _U.list([$Svg$Attributes.width(wStr)
-              ,$Svg$Attributes.height(hStr)
-              ,$Svg$Attributes.viewBox(A2($Basics._op["++"],"0 0 ",A2($Basics._op["++"],wStr,A2($Basics._op["++"]," ",hStr))))]),
-      A2($List.map,poly(addr),coords$));
-   });
    var NoOp = {ctor: "NoOp"};
-   var renderSideTab = F2(function (address,model) {
-      var _p12 = function (_) {    return _.currentArea;}(model);
-      if (_p12.ctor === "Nothing") {
-            return A2($Html.div,
-            _U.list([$Html$Attributes.id("sideTab")]),
-            _U.list([A2($Html.h2,_U.list([]),_U.list([$Html.text("Yamana garden explorer")]))
-                    ,A2($Html.p,_U.list([]),_U.list([$Html.text("Move the cursor over an area to know more about it!")]))]));
-         } else {
-            var _p13 = _p12._0;
-            return A2($Html.div,
-            _U.list([$Html$Attributes.id("sideTab")]),
-            _U.list([A2($Html.h2,_U.list([]),_U.list([$Html.text(function (_) {    return _.name;}(_p13))]))
-                    ,A2($Html.img,
-                    _U.list([$Html$Attributes.src(A2($Basics._op["++"],"images/thumbs/",function (_) {    return _.picture;}(_p13)))]),
-                    _U.list([]))
-                    ,A2(maybeElem,function (_) {    return _.descr;}(_p13),function (s) {    return A2($Html.p,_U.list([]),_U.list([$Html.text(s)]));})]));
-         }
-   });
    var view = F2(function (address,model) {
       return A2($Html.div,
       _U.list([$Html$Attributes.id("container"),computeWMargin(function (_) {    return _.vpSize;}(model))]),
       _U.list([A2($Html.div,
       _U.list([$Html$Attributes.id("mapApp"),computeVMargin(function (_) {    return _.vpSize;}(model))]),
       _U.list([A2($Html.div,
-              _U.list([$Html$Attributes.id("mapContainer")]),
-              _U.list([A2($Html.img,
-                      _U.list([$Html$Attributes.src("images/mapPrototype.png")
-                              ,$Html$Attributes.usemap("#imgmap2016528221332")
-                              ,$Html$Attributes.width(1000)
-                              ,$Html$Attributes.height(771)
-                              ,$Html$Attributes.id("mapPic")]),
-                      _U.list([]))
-                      ,A3(coordsToSVGs,address,model,function (_) {    return _.desiredWidth;}(model))]))
-              ,A2(renderSideTab,address,model)]))]));
+              _U.list([$Html$Attributes.$class("picContainer")]),
+              _U.list([A2($Html.a,
+              _U.list([$Html$Attributes.href("/map")]),
+              _U.list([A2($Html.img,_U.list([$Html$Attributes.src("/images/map.png")]),_U.list([]))
+                      ,A2($Html.p,_U.list([]),_U.list([$Html.text("Map explorer")]))]))]))
+              ,A2($Html.div,
+              _U.list([$Html$Attributes.$class("picContainer")]),
+              _U.list([A2($Html.a,
+              _U.list([$Html$Attributes.href("/plants")]),
+              _U.list([A2($Html.img,_U.list([$Html$Attributes.src("/images/plants.JPG")]),_U.list([]))
+                      ,A2($Html.p,_U.list([]),_U.list([$Html.text("Plant database")]))]))]))]))]));
    });
-   var Model = F4(function (a,b,c,d) {    return {currentArea: a,areas: b,desiredWidth: c,vpSize: d};});
-   var initialModel = A4(Model,$Maybe.Nothing,pts,800,initVpSize);
+   var Model = F2(function (a,b) {    return {desiredWidth: a,vpSize: b};});
+   var initialModel = A2(Model,800,initVpSize);
    var app = $StartApp.start({init: {ctor: "_Tuple2",_0: initialModel,_1: $Effects.none},view: view,update: update,inputs: _U.list([vpSizeUpdate])});
    var main = app.html;
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
    var subMenu = _U.list([]);
-   return _elm.Yamana.values = {_op: _op
-                               ,subMenu: subMenu
-                               ,Model: Model
-                               ,initialModel: initialModel
-                               ,view: view
-                               ,renderSideTab: renderSideTab
-                               ,NoOp: NoOp
-                               ,AreaHover: AreaHover
-                               ,Reset: Reset
-                               ,Resize: Resize
-                               ,update: update
-                               ,vpSizeUpdate: vpSizeUpdate
-                               ,app: app
-                               ,main: main
-                               ,Area: Area
-                               ,defArea: defArea
-                               ,coordsToAreas: coordsToAreas
-                               ,coordsToArea: coordsToArea
-                               ,coordsToSVGs: coordsToSVGs
-                               ,toScale: toScale
-                               ,maybeElem: maybeElem
-                               ,nullTag: nullTag
-                               ,computeVMargin: computeVMargin
-                               ,computeWMargin: computeWMargin
-                               ,pts: pts};
+   return _elm.Home.values = {_op: _op
+                             ,subMenu: subMenu
+                             ,Model: Model
+                             ,initialModel: initialModel
+                             ,view: view
+                             ,NoOp: NoOp
+                             ,Resize: Resize
+                             ,update: update
+                             ,vpSizeUpdate: vpSizeUpdate
+                             ,app: app
+                             ,main: main
+                             ,maybeElem: maybeElem
+                             ,nullTag: nullTag
+                             ,computeVMargin: computeVMargin
+                             ,computeWMargin: computeWMargin};
 };
