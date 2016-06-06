@@ -11469,26 +11469,27 @@ Elm.Yamana.make = function (_elm) {
    $Svg$Attributes = Elm.Svg.Attributes.make(_elm),
    $Task = Elm.Task.make(_elm);
    var _op = {};
-   var computeWMargin = function (_p0) {
+   var setSize = function (_p0) {
       var _p1 = _p0;
-      var _p2 = _p1._0;
-      if (_U.cmp(_p2 - 1200,0) < 1) return $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "background-color",_1: "transparent"}
-                                                                          ,{ctor: "_Tuple2",_0: "box-shadow",_1: "none"}])); else {
-            var w = 1185 + (_p2 - 1185) / 4;
-            var ml = (_p2 - w) / 2;
+      return $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "width",_1: A2($Basics._op["++"],$Basics.toString(_p1._0),"px")}
+                                            ,{ctor: "_Tuple2",_0: "height",_1: A2($Basics._op["++"],$Basics.toString(_p1._1),"px")}]));
+   };
+   var computeWMargin = function (model) {
+      var dw = function (_) {    return _.desiredWidth;}(model) + 385;
+      var _p2 = function (_) {    return _.vpSize;}(model);
+      var vpWidth = _p2._0;
+      var vpHeight = _p2._1;
+      if (_U.cmp(vpWidth,1368) < 1) return $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "background-color",_1: "transparent"}
+                                                                          ,{ctor: "_Tuple2",_0: "box-shadow",_1: "none"}
+                                                                          ,{ctor: "_Tuple2",_0: "position",_1: "static"}
+                                                                          ,{ctor: "_Tuple2",_0: "height",_1: "initial"}])); else {
+            var w = dw + (vpWidth - dw) / 4;
+            var ml = (vpWidth - w) / 2;
             return $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "width",_1: A2($Basics._op["++"],$Basics.toString(w),"px")}
                                                   ,{ctor: "_Tuple2",_0: "margin-left",_1: A2($Basics._op["++"],$Basics.toString(ml),"px")}]));
          }
    };
-   var computeVMargin = function (_p3) {
-      var _p4 = _p3;
-      var _p5 = _p4._1;
-      return _U.cmp(_p5 - 650,0) < 1 ? $Html$Attributes.style(_U.list([])) : $Html$Attributes.style(_U.list([{ctor: "_Tuple2"
-                                                                                                             ,_0: "margin-top"
-                                                                                                             ,_1: A2($Basics._op["++"],
-                                                                                                             $Basics.toString((_p5 - 650) / 2),
-                                                                                                             "px")}]));
-   };
+   var computeDesiredWidth = function (_p3) {    var _p4 = _p3;return _U.cmp(_p4._0,1368) > -1 ? 800 : 600;};
    var nullTag = A2($Html.span,_U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "display",_1: "none"}]))]),_U.list([]));
    var maybeElem = F2(function (s,f) {    return $String.isEmpty(s) ? nullTag : f(s);});
    var toScale = F2(function (width,xs) {
@@ -11496,14 +11497,14 @@ Elm.Yamana.make = function (_elm) {
       var ratio = 1000 / 771;
       var hScale = 771 / ($Basics.toFloat(width) / ratio);
       var helper = function (xs) {
-         var _p6 = xs;
-         if (_p6.ctor === "[]") {
+         var _p5 = xs;
+         if (_p5.ctor === "[]") {
                return _U.list([]);
             } else {
-               if (_p6._1.ctor === "::") {
-                     var h$ = $Basics.toFloat(_p6._1._0) / hScale;
-                     var w$ = $Basics.toFloat(_p6._0) / wScale;
-                     return A2($List._op["::"],$Basics.round(w$),A2($List._op["::"],$Basics.round(h$),helper(_p6._1._1)));
+               if (_p5._1.ctor === "::") {
+                     var h$ = $Basics.toFloat(_p5._1._0) / hScale;
+                     var w$ = $Basics.toFloat(_p5._0) / wScale;
+                     return A2($List._op["::"],$Basics.round(w$),A2($List._op["::"],$Basics.round(h$),helper(_p5._1._1)));
                   } else {
                      return _U.list([]);
                   }
@@ -11586,54 +11587,45 @@ Elm.Yamana.make = function (_elm) {
                                                            ,_1: typeof v[1] === "number" ? v[1] : _U.badPort("a number",v[1])} : _U.badPort("an array",v);
    });
    var update = F2(function (action,model) {
-      var _p7 = action;
-      switch (_p7.ctor)
+      var _p6 = action;
+      switch (_p6.ctor)
       {case "NoOp": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
          case "Reset": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
          case "AreaHover": return {ctor: "_Tuple2"
-                                  ,_0: _U.update(model,{currentArea: A2($Dict.get,_p7._0,function (_) {    return _.areas;}(model))})
+                                  ,_0: _U.update(model,{currentArea: A2($Dict.get,_p6._0,function (_) {    return _.areas;}(model))})
                                   ,_1: $Effects.none};
-         default: return {ctor: "_Tuple2",_0: _U.update(model,{vpSize: _p7._0}),_1: $Effects.none};}
+         default: return {ctor: "_Tuple2"
+                         ,_0: _U.update(model,{vpSize: _p6._0,desiredWidth: computeDesiredWidth(function (_) {    return _.vpSize;}(model))})
+                         ,_1: $Effects.none};}
    });
    var Resize = function (a) {    return {ctor: "Resize",_0: a};};
    var vpSizeUpdate = A2($Signal.map,function (v) {    return Resize(v);},vpSizePort);
    var Reset = {ctor: "Reset"};
    var AreaHover = function (a) {    return {ctor: "AreaHover",_0: a};};
-   var coordsToArea = F2(function (addr,poly) {
-      var coords$ = A2($String.join,",",A2($List.map,$Basics.toString,function (_) {    return _.points;}(poly)));
-      return A3($Html.node,
-      "area",
-      _U.list([$Html$Attributes.title(function (_) {    return _.name;}(poly))
-              ,$Html$Attributes.shape("poly")
-              ,$Html$Attributes.coords(coords$)
-              ,A2($Html$Events.onClick,addr,AreaHover(function (_) {    return _.id;}(poly)))]),
-      _U.list([]));
-   });
-   var coordsToAreas = function (addr) {    return $List.map(coordsToArea(addr));};
    var coordsToSVGs = F3(function (addr,model,dw) {
       var hStr = $Basics.toString($Basics.round($Basics.toFloat(dw) / (1000 / 771)));
       var wStr = $Basics.toString(dw);
       var id$ = function () {
-         var _p8 = function (_) {    return _.currentArea;}(model);
-         if (_p8.ctor === "Nothing") {
+         var _p7 = function (_) {    return _.currentArea;}(model);
+         if (_p7.ctor === "Nothing") {
                return 0;
             } else {
                return function (_) {
                   return _.id;
-               }(_p8._0);
+               }(_p7._0);
             }
       }();
-      var poly = F2(function (addr,_p9) {
-         var _p10 = _p9;
-         var _p11 = _p10.id;
+      var poly = F2(function (addr,_p8) {
+         var _p9 = _p8;
+         var _p10 = _p9.id;
          var content = _U.list([A2($Svg.polygon,
-         _U.list([$Svg$Attributes.points(A2($String.join,",",A2($List.map,$Basics.toString,_p10.points)))
-                 ,A2($Html$Events.onMouseOver,addr,AreaHover(_p11))
+         _U.list([$Svg$Attributes.points(A2($String.join,",",A2($List.map,$Basics.toString,_p9.points)))
+                 ,A2($Html$Events.onMouseOver,addr,AreaHover(_p10))
                  ,A2($Html$Events.onMouseOut,addr,Reset)
                  ,$Svg$Attributes.fill("blue")
-                 ,_U.eq(_p11,id$) ? $Svg$Attributes.$class("isCurrent") : $Svg$Attributes.$class("isNotCurrent")]),
-         _U.list([A3($Html.node,"title",_U.list([]),_U.list([$Svg.text(_p10.name)]))]))]);
-         return _U.eq(_p11,id$) ? A2($Svg.a,_U.list([$Svg$Attributes.xlinkHref(_p10.link)]),content) : A2($Svg.g,_U.list([]),content);
+                 ,_U.eq(_p10,id$) ? $Svg$Attributes.$class("isCurrent") : $Svg$Attributes.$class("isNotCurrent")]),
+         _U.list([A3($Html.node,"title",_U.list([]),_U.list([$Svg.text(_p9.name)]))]))]);
+         return _U.eq(_p10,id$) ? A2($Svg.a,_U.list([$Svg$Attributes.xlinkHref(_p9.link)]),content) : A2($Svg.g,_U.list([]),content);
       });
       var coords$ = A2(toScale,dw,$Dict.values(function (_) {    return _.areas;}(model)));
       return A2($Svg.svg,
@@ -11644,42 +11636,64 @@ Elm.Yamana.make = function (_elm) {
    });
    var NoOp = {ctor: "NoOp"};
    var renderSideTab = F2(function (address,model) {
-      var _p12 = function (_) {    return _.currentArea;}(model);
-      if (_p12.ctor === "Nothing") {
+      var _p11 = function (_) {    return _.currentArea;}(model);
+      if (_p11.ctor === "Nothing") {
             return A2($Html.div,
             _U.list([$Html$Attributes.id("sideTab")]),
             _U.list([A2($Html.h2,_U.list([]),_U.list([$Html.text("Yamana garden explorer")]))
                     ,A2($Html.p,_U.list([]),_U.list([$Html.text("Move the cursor over an area to know more about it!")]))]));
          } else {
-            var _p13 = _p12._0;
+            var _p12 = _p11._0;
             return A2($Html.div,
             _U.list([$Html$Attributes.id("sideTab")]),
-            _U.list([A2($Html.h2,_U.list([]),_U.list([$Html.text(function (_) {    return _.name;}(_p13))]))
+            _U.list([A2($Html.h2,_U.list([]),_U.list([$Html.text(function (_) {    return _.name;}(_p12))]))
                     ,A2($Html.img,
-                    _U.list([$Html$Attributes.src(A2($Basics._op["++"],"images/thumbs/",function (_) {    return _.picture;}(_p13)))]),
+                    _U.list([$Html$Attributes.src(A2($Basics._op["++"],"images/thumbs/",function (_) {    return _.picture;}(_p12)))]),
                     _U.list([]))
-                    ,A2(maybeElem,function (_) {    return _.descr;}(_p13),function (s) {    return A2($Html.p,_U.list([]),_U.list([$Html.text(s)]));})]));
+                    ,A2(maybeElem,function (_) {    return _.descr;}(_p12),function (s) {    return A2($Html.p,_U.list([]),_U.list([$Html.text(s)]));})]));
          }
    });
+   var mapRatio = 800 / 617;
+   var computeVMargin = function (model) {
+      var dw = function (_) {    return _.desiredWidth;}(model) + 33;
+      var dh = $Basics.toFloat(function (_) {    return _.desiredWidth;}(model)) / mapRatio + 33;
+      var _p13 = function (_) {    return _.vpSize;}(model);
+      var vpWidth = _p13._0;
+      var vpHeight = _p13._1;
+      return _U.cmp(vpHeight - dh,0) < 1 ? $Html$Attributes.style(_U.list([{ctor: "_Tuple2"
+                                                                           ,_0: "width"
+                                                                           ,_1: A2($Basics._op["++"],
+                                                                           $Basics.toString(dw + 352),
+                                                                           "px")}])) : $Html$Attributes.style(_U.list([{ctor: "_Tuple2"
+                                                                                                                       ,_0: "margin-top"
+                                                                                                                       ,_1: A2($Basics._op["++"],
+                                                                                                                       $Basics.toString((vpHeight - dh) / 2),
+                                                                                                                       "px")}
+                                                                                                                      ,{ctor: "_Tuple2"
+                                                                                                                       ,_0: "width"
+                                                                                                                       ,_1: A2($Basics._op["++"],
+                                                                                                                       $Basics.toString(dw + 352),
+                                                                                                                       "px")}]));
+   };
    var view = F2(function (address,model) {
       return A2($Html.div,
-      _U.list([$Html$Attributes.id("container"),computeWMargin(function (_) {    return _.vpSize;}(model))]),
+      _U.list([$Html$Attributes.id("container"),computeWMargin(model)]),
       _U.list([A2($Html.div,
-      _U.list([$Html$Attributes.id("mapApp"),computeVMargin(function (_) {    return _.vpSize;}(model))]),
+      _U.list([$Html$Attributes.id("mapApp"),computeVMargin(model)]),
       _U.list([A2($Html.div,
-              _U.list([$Html$Attributes.id("mapContainer")]),
-              _U.list([A2($Html.img,
-                      _U.list([$Html$Attributes.src("images/mapPrototype.png")
-                              ,$Html$Attributes.usemap("#imgmap2016528221332")
-                              ,$Html$Attributes.width(1000)
-                              ,$Html$Attributes.height(771)
-                              ,$Html$Attributes.id("mapPic")]),
-                      _U.list([]))
+              _U.list([$Html$Attributes.id("mapContainer")
+                      ,setSize({ctor: "_Tuple2"
+                               ,_0: function (_) {
+                                  return _.desiredWidth;
+                               }(model)
+                               ,_1: $Basics.toFloat(function (_) {    return _.desiredWidth;}(model)) / mapRatio})]),
+              _U.list([A2($Html.img,_U.list([$Html$Attributes.src("images/mapPrototype.png"),$Html$Attributes.id("mapPic")]),_U.list([]))
                       ,A3(coordsToSVGs,address,model,function (_) {    return _.desiredWidth;}(model))]))
               ,A2(renderSideTab,address,model)]))]));
    });
+   var initWidth = computeDesiredWidth(initVpSize);
    var Model = F4(function (a,b,c,d) {    return {currentArea: a,areas: b,desiredWidth: c,vpSize: d};});
-   var initialModel = A4(Model,$Maybe.Nothing,pts,800,initVpSize);
+   var initialModel = A4(Model,$Maybe.Nothing,pts,initWidth,initVpSize);
    var app = $StartApp.start({init: {ctor: "_Tuple2",_0: initialModel,_1: $Effects.none},view: view,update: update,inputs: _U.list([vpSizeUpdate])});
    var main = app.html;
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
@@ -11687,6 +11701,8 @@ Elm.Yamana.make = function (_elm) {
    return _elm.Yamana.values = {_op: _op
                                ,subMenu: subMenu
                                ,Model: Model
+                               ,initWidth: initWidth
+                               ,mapRatio: mapRatio
                                ,initialModel: initialModel
                                ,view: view
                                ,renderSideTab: renderSideTab
@@ -11700,13 +11716,13 @@ Elm.Yamana.make = function (_elm) {
                                ,main: main
                                ,Area: Area
                                ,defArea: defArea
-                               ,coordsToAreas: coordsToAreas
-                               ,coordsToArea: coordsToArea
                                ,coordsToSVGs: coordsToSVGs
                                ,toScale: toScale
                                ,maybeElem: maybeElem
                                ,nullTag: nullTag
+                               ,computeDesiredWidth: computeDesiredWidth
                                ,computeVMargin: computeVMargin
                                ,computeWMargin: computeWMargin
+                               ,setSize: setSize
                                ,pts: pts};
 };

@@ -25,30 +25,29 @@ type alias Model =
   , vpSize : (Float,Float) 
   }
 
+initWidth = computeDesiredWidth initVpSize
 
-initialModel = Model Nothing pts 800 initVpSize
+mapRatio : Float
+mapRatio = 800/617
 
+initialModel = Model Nothing pts initWidth initVpSize
 
 -- View
 view address model =
-  div [id "container",computeWMargin (.vpSize model)]
-      [div [id "mapApp", computeVMargin (.vpSize model)] 
-           [div [ id "mapContainer"]
+  div [id "container",computeWMargin model]
+      [div [id "mapApp", computeVMargin model] 
+           [div [ id "mapContainer"
+                , setSize (.desiredWidth model
+                          , ((toFloat (.desiredWidth model)) / mapRatio))
+                ]
                 [ img [src "images/mapPrototype.png"
-                      , usemap "#imgmap2016528221332"
-                      , width 1000
-                      , height 771
                       , id "mapPic"
                       ]
                       []
                 , (coordsToSVGs address 
                                 model
                                 (.desiredWidth model)
-                   )
-                --, Html.node "map" [ id "imgmap2016528221332"
-                --                  , name "imgmap2016528221332"
-                --                  ]  
-                --                  (coordsToAreas address (toScale (.desiredWidth model) pts))      
+                   )      
                 ]
            , renderSideTab address model
            
@@ -84,7 +83,10 @@ update action model =
     NoOp        -> (model,none)
     Reset       -> (model,none) --{model | currentArea = Nothing}
     AreaHover n -> ({model | currentArea = Dict.get n (.areas model)},none)
-    Resize newSize -> ({model | vpSize = newSize},none)
+    Resize newSize -> ({ model | 
+                         vpSize = newSize
+                       , desiredWidth = computeDesiredWidth (.vpSize model)
+                       },none)
 
 
 --Main
@@ -123,20 +125,6 @@ type alias Area =
   }
 
 defArea = Area 0 [] "" "" "" ""
-
-coordsToAreas : Signal.Address Action -> List Area -> List Html
-coordsToAreas addr = List.map (coordsToArea addr)
-
-coordsToArea : Signal.Address Action -> Area -> Html
-coordsToArea addr poly = 
-  let coords' = String.join "," (List.map toString (.points poly))
-  in 
-  Html.node "area" [ title (.name poly)
-                   , shape "poly"
-                   , coords coords'
-                   , onClick addr (AreaHover (.id poly))
-                   ]
-                   []
 
 coordsToSVGs : Signal.Address Action -> Model -> Int -> Html
 coordsToSVGs addr model dw = 
@@ -192,22 +180,43 @@ maybeElem s f =
 nullTag = span [style [("display","none")]] []
 
 --computeMargin : (Float,Float) -> VirtualDom.Property
-computeVMargin (vpWidth,vpHeight) =
-  if vpHeight - 650 <= 0 
-  then style []
-  else style [("margin-top",(toString ((vpHeight - 650)/2)) ++ "px")]  
+computeDesiredWidth (vpWidth,vpHeight) = 
+  if vpWidth >= 1368
+  then 800
+  else 600
 
-computeWMargin (vpWidth,vpHeight) =
-  if vpWidth - 1200 <= 0 
+computeVMargin model =
+  let (vpWidth,vpHeight) = .vpSize model
+      dh = (toFloat (.desiredWidth model) / mapRatio) + 33
+      dw = .desiredWidth model + 33   
+  in   
+     if vpHeight - dh <= 0 
+     then style [("width",(toString (dw + 352)) ++ "px")]
+     else style [("margin-top",(toString ((vpHeight - dh)/2)) ++ "px")
+                ,("width",(toString (dw + 352)) ++ "px")
+                ]  
+
+computeWMargin model =
+  let (vpWidth,vpHeight) = .vpSize model
+      dw = .desiredWidth model + 385   
+  in
+
+  if vpWidth <= 1368
   then style [("background-color","transparent")
              ,("box-shadow","none")
+             ,("position","static")
+             ,("height","initial")
              ]
   else 
-    let w  = (1185+(vpWidth-1185)/4)
+    let w  = (dw+(vpWidth-dw)/4)
         ml = (vpWidth - w) / 2
     in style [ ("width",(toString w) ++ "px")
              , ("margin-left",(toString ml) ++ "px")
              ]
+
+setSize (w,h) = style [ ("width",(toString w) ++ "px")
+                      , ("height",(toString h) ++ "px")
+                      ]
 
 
 -- Data

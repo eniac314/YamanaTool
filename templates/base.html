@@ -24,15 +24,16 @@
 <body onresize="sendVpSize()">
 <a name="top" id="top"></a>
 
-	<div class="menu">
+	<div id="menu">
 		{% if signingUp %}
 			<a href="/login">login</a>
 		{% else %}	
 			{% if loggedout %}
 				<a href="/signup">signup</a>
 			{% else %}
-				<p>{{usr.capitalize() ~ " | "}}</p>
+				{{usr.capitalize() ~ " | "}}
 				<a href="/logout">logout</a>
+				<a href="/">| Back to menu </a>
 			{% endif %}
 		{% endif %}
 	</div>

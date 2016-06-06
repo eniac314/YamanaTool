@@ -4,11 +4,21 @@ body{
   padding: 0;
 }
 
+
+
+#menu {
+  display: block;
+  /*width:100px;
+  margin: 0;
+  background-color: red; */
+}
+
 #container{
   position: absolute;
   top:0;
   background-color: rgb(140,117,75);
   margin:auto;
+  /*text-align: center;*/
   /*width: 80%;*/
   /*margin-right: 10%;*/
   /*margin-left:10%;*/
@@ -24,7 +34,7 @@ body{
   /*background:linear-gradient(to top, rgb(138,115,73), rgb(44,82,5));;*/
   background-color: #A5926A;
   position: relative;
-  width:1150px;
+  /*width:1150px;*/
   height: auto;
   border-radius: 0.2em;
   box-shadow: 5px 5px 5px black;

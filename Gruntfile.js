@@ -5,6 +5,7 @@ module.exports = function(grunt) {
       compile: {
         files: {
           "./js/yamana.js": ["./src/Yamana.elm"],
+          "./js/plants.js": ["./src/Plants.elm"],
           "./js/home.js": ["./src/Home.elm"]
         }
       }
@@ -12,6 +13,7 @@ module.exports = function(grunt) {
     watch: {
       elm: {
         files: ["./src/Yamana.elm"
+               ,"./src/Plants.elm"
                ,"./src/Home.elm"
                ],
         tasks: ["elm"]

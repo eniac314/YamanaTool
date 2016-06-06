@@ -102,9 +102,10 @@ computeVMargin (vpWidth,vpHeight) =
   else style [("margin-top",(toString ((vpHeight - 650)/2)) ++ "px")]  
 
 computeWMargin (vpWidth,vpHeight) =
-  if vpWidth - 1200 <= 0 
+  if vpWidth - 1368 <= 0 
   then style [("background-color","transparent")
              ,("box-shadow","none")
+             ,("position","static")
              ]
   else 
     let w  = (1185+(vpWidth-1185)/4)

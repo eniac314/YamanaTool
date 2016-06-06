@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=UTF-8
 #
 # Copyright 2007 Google Inc.
 #
@@ -31,7 +32,7 @@ from datetime import datetime
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape=True, trim_blocks=True) 
 
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 from google.appengine.api import memcache
 
 ############################################################################################################
@@ -85,12 +86,12 @@ class Validate():
 		tmp = self.makePwHash(name, pw, salt)[0] 
 		return (hsh == tmp)
 
-class UsrEntry(db.Model):
-	name = db.StringProperty(required = True)
-	password = db.StringProperty(required = True)
-	salt = db.StringProperty(required = True)
-	email = db.StringProperty(required = False)
-	created = db.DateTimeProperty(auto_now_add = True)
+class UsrEntry(ndb.Model):
+	name = ndb.StringProperty(required = True)
+	password = ndb.StringProperty(required = True)
+	salt = ndb.StringProperty(required = True)
+	email = ndb.StringProperty(required = False)
+	created = ndb.DateTimeProperty(auto_now_add = True)
 	# language = db.StringProperty(required = False)
 
 class UsrAccHandler(Handler,Validate):
@@ -115,7 +116,7 @@ class UsrAccHandler(Handler,Validate):
 
 		if not (wrgUsr or wrgPswd or wrgMatch or wrgMail or wrgLicNbr):
 			
-			usrData = (db.GqlQuery("SELECT * FROM UsrEntry WHERE name = :usrname", usrname=usr)).get()
+			usrData = (ndb.gql("SELECT * FROM UsrEntry WHERE name = :usrname", usrname=usr)).get()
 			if not usrData:
 				(hsh,salt) = self.makePwHash(usr,passwd)
 				newUsr = UsrEntry(name=usr, password=hsh, salt=salt, email=mail)
@@ -151,7 +152,7 @@ class LoginHandler(Handler, Validate):
 		wrgUsr = "wrong username" if (not self.validUser(usr)) else ""
 		wrgPswd = "wrong password" if (not self.validPass(passwd)) else ""
 
-		usrData = (db.GqlQuery("SELECT * FROM UsrEntry WHERE name = :usrname", usrname=usr)).get()
+		usrData = (ndb.gql("SELECT * FROM UsrEntry WHERE name = :usrname", usrname=usr)).get()
 
 
 		if (not (wrgUsr or wrgPswd)):
@@ -204,9 +205,45 @@ class MapHandler(Handler,Validate):
 		else:
 			self.redirect("/login")
 
+class PlantsHandler(Handler,Validate):
+	def get(self):
+		value = self.request.cookies.get('name')
+		usr = value.split('|')[0] if value else None
+
+		if usr and self.checkValue(usr,value):
+			self.render("plants.html",
+			             usr=usr,
+			             extraCss = "plants.css",
+			             extraJs = "plants.js"
+			            )
+		else:
+			self.redirect("/login")
+
+class PlantsJsonHandler(Handler,Validate):
+	def get(self):
+		value = self.request.cookies.get('name')
+		usr = value.split('|')[0] if value else None
+
+		if usr and self.checkValue(usr,value):
+			
+			test = {'name':('rose','玫瑰花')
+			       ,'availability':[('greenhouse','05/12/')]
+			       ,'usage':('w','w')
+			       ,'remarks':('w','w')
+			       ,'pics':[]
+			       }
+			
+			self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
+			self.write(str(json.dumps([test])))
+
+		else:
+			self.redirect("/login")
+
 app = webapp2.WSGIApplication([
 	('/', MainHandler),
 	('/map',MapHandler),
+	('/plants',PlantsHandler),
+	('/plants_json',PlantsJsonHandler),
 	('/signup',UsrAccHandler),
     ('/login',LoginHandler),
     ('/logout',LogoutHandler)
