@@ -28,29 +28,31 @@ import time
 import json
 import logging
 from datetime import datetime
+import mimetypes
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape=True, trim_blocks=True) 
 
 from google.appengine.ext import ndb
+from google.appengine.api import images
 from google.appengine.api import memcache
 
 ############################################################################################################
 # utils #
 
 class Handler(webapp2.RequestHandler):
-    #produces the actual html
-    def write(self, *a, **kw):
-        self.response.out.write(*a, **kw)
+	#produces the actual html
+	def write(self, *a, **kw):
+		self.response.out.write(*a, **kw)
 
-    #load the template, and produces a string with the data in params    
-    def render_str(self, template, **params):
-        t = jinja_env.get_template(template)
-        return t.render(params)
+	#load the template, and produces a string with the data in params    
+	def render_str(self, template, **params):
+		t = jinja_env.get_template(template)
+		return t.render(params)
 
-    #combines previous two.     
-    def render(self, template, **kw):
-        self.write(self.render_str(template, **kw))
+	#combines previous two.     
+	def render(self, template, **kw):
+		self.write(self.render_str(template, **kw))
 
 class Validate():
 	secret = "kdebfzhkfblzuhcjsdhbcjskbfkjufuehfzuijkpmm"
@@ -94,6 +96,11 @@ class UsrEntry(ndb.Model):
 	created = ndb.DateTimeProperty(auto_now_add = True)
 	# language = db.StringProperty(required = False)
 
+
+class Images(ndb.Model):
+	file_name = ndb.StringProperty()
+	blob = ndb.BlobProperty()
+
 class UsrAccHandler(Handler,Validate):
 
 	licenceNbr = "licence"
@@ -131,14 +138,14 @@ class UsrAccHandler(Handler,Validate):
 			logging.error(self.licenceNbr)
 
 			self.render("usrAccount.html",
-			             usr = cgi.escape(usr),
-			             mail = cgi.escape(mail),
-			             wrgUsr = wrgUsr,
-			             wrgPswd = wrgPswd,
-			             wrgMatch = wrgMatch,
-			             wrgMail = wrgMail,
-			             wrgLicNbr = wrgLicNbr,
-			             signingUp=True)
+						 usr = cgi.escape(usr),
+						 mail = cgi.escape(mail),
+						 wrgUsr = wrgUsr,
+						 wrgPswd = wrgPswd,
+						 wrgMatch = wrgMatch,
+						 wrgMail = wrgMail,
+						 wrgLicNbr = wrgLicNbr,
+						 signingUp=True)
 
 class LoginHandler(Handler, Validate):
 
@@ -163,10 +170,10 @@ class LoginHandler(Handler, Validate):
 				self.render("login.html",error="wrong username and/or password!", loggedout=True)
 		else:
 			self.render("login.html",
-			             usr = cgi.escape(usr),
-			             wrgUsr = wrgUsr,
-			             wrgPswd = wrgPswd,
-			             loggedout=True)
+						 usr = cgi.escape(usr),
+						 wrgUsr = wrgUsr,
+						 wrgPswd = wrgPswd,
+						 loggedout=True)
 
 class LogoutHandler(Handler):
 	def get(self):
@@ -182,10 +189,10 @@ class MainHandler(Handler,Validate):
 
 		if usr and self.checkValue(usr,value):
 			self.render("index.html",
-			             usr=usr,
-			             extraCss = "home.css",
-			             extraJs  = "home.js" 
-			            )
+						 usr=usr,
+						 extraCss = "home.css",
+						 extraJs  = "home.js" 
+						)
 			
 		else:
 			self.redirect("/login")
@@ -197,10 +204,10 @@ class MapHandler(Handler,Validate):
 
 		if usr and self.checkValue(usr,value):
 			self.render("map.html",
-			             usr=usr,
-			             extraCss = "stylemap.css",
-			             extraJs = "yamana.js"
-			            )
+						 usr=usr,
+						 extraCss = "stylemap.css",
+						 extraJs = "yamana.js"
+						)
 			
 		else:
 			self.redirect("/login")
@@ -212,12 +219,44 @@ class PlantsHandler(Handler,Validate):
 
 		if usr and self.checkValue(usr,value):
 			self.render("plants.html",
-			             usr=usr,
-			             extraCss = "plants.css",
-			             extraJs = "plants.js"
-			            )
+						 usr=usr,
+						 extraCss = "plants.css",
+						 extraJs = "plants.js"
+						)
 		else:
 			self.redirect("/login")
+
+class PlantUpdateHandler(Handler,Validate):
+	def get(self):
+		value = self.request.cookies.get('name')
+		usr = value.split('|')[0] if value else None
+
+		if usr and self.checkValue(usr,value):
+			self.render("plantUpdate.html",
+						 usr=usr,
+						 extraCss = "plants.css",
+						 extraJs = "plantUpdate.js"
+						)
+		else:
+			self.redirect("/login")
+
+	def post(self):
+
+		file_upload = self.request.POST.get("file", None)
+		file_name = file_upload.filename
+		
+		img = images.Image(file_upload.file.read())
+		img.resize(width=80, height=100)
+		img.im_feeling_lucky()
+		thumbnail = img.execute_transforms(output_encoding=images.JPEG)
+
+
+		image = Images(id=file_name, file_name=file_name, blob=thumbnail)
+
+		image.put()
+
+		self.response.headers[b'Content-Type'] = mimetypes.guess_type(image.file_name)[0]
+		self.response.write(image.blob)
 
 class PlantsJsonHandler(Handler,Validate):
 	def get(self):
@@ -227,11 +266,11 @@ class PlantsJsonHandler(Handler,Validate):
 		if usr and self.checkValue(usr,value):
 			
 			test = {'name':('rose','玫瑰花')
-			       ,'availability':[('greenhouse','05/12/')]
-			       ,'usage':('w','w')
-			       ,'remarks':('w','w')
-			       ,'pics':[]
-			       }
+				   ,'availability':[('greenhouse','05/12/')]
+				   ,'usage':('w','w')
+				   ,'remarks':('w','w')
+				   ,'pics':[]
+				   }
 			
 			self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
 			self.write(str(json.dumps([test])))
@@ -245,6 +284,7 @@ app = webapp2.WSGIApplication([
 	('/plants',PlantsHandler),
 	('/plants_json',PlantsJsonHandler),
 	('/signup',UsrAccHandler),
-    ('/login',LoginHandler),
-    ('/logout',LogoutHandler)
+	('/login',LoginHandler),
+	('/plant_update',PlantUpdateHandler),
+	('/logout',LogoutHandler)
 ], debug=True)

@@ -1,0 +1,17 @@
+{%extends "base.html"%}
+
+{%block content%}
+
+<div id="elm-app"></div>
+
+<script type="text/javascript">
+  var vpWidth = document.documentElement.clientWidth; 
+  var vpHeight = document.documentElement.clientHeight;
+
+  var elmDiv = document.getElementById('elm-app');
+  var elmApp = Elm.embed(Elm.PlantUpdate, elmDiv, {vpSizePort: [vpWidth, vpHeight], initVpSize: [vpWidth, vpHeight]});
+</script>
+
+
+
+{% endblock %}   
