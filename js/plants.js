@@ -11943,16 +11943,39 @@ Elm.Plants.make = function (_elm) {
    var Resize = function (a) {    return {ctor: "Resize",_0: a};};
    var vpSizeUpdate = A2($Signal.map,function (v) {    return Resize(v);},vpSizePort);
    var NoOp = {ctor: "NoOp"};
+   var renderContent = F2(function (address,model) {
+      var _p7 = function (_) {    return _.content;}(model);
+      if (_p7.ctor === "Err") {
+            return A2($Html.div,_U.list([]),_U.list([$Html.text($Basics.toString(_p7._0))]));
+         } else {
+            return A2($Html.div,
+            _U.list([$Html$Attributes.id("plantList")]),
+            _U.list([A2($Html.table,
+            _U.list([]),
+            A2($List.map,
+            function (p) {
+               return A2($Html.tr,
+               _U.list([]),
+               _U.list([A2($Html.td,_U.list([]),_U.list([$Html.text($Basics.toString(function (_) {    return _.name;}(p)))]))
+                       ,A2($Html.td,
+                       _U.list([]),
+                       _U.list([A2($Html.img,
+                       _U.list([$Html$Attributes.src(A2($Basics._op["++"],"/img/",function (_) {    return _.mainPic;}(p)))]),
+                       _U.list([]))]))]));
+            },
+            _p7._0))]));
+         }
+   });
    var view = F2(function (address,model) {
       return A2($Html.div,
       _U.list([$Html$Attributes.id("container"),computeWMargin(function (_) {    return _.vpSize;}(model))]),
       _U.list([A2($Html.div,
       _U.list([$Html$Attributes.id("mapApp"),computeVMargin(function (_) {    return _.vpSize;}(model))]),
-      _U.list([$Html.text($Basics.toString(function (_) {    return _.content;}(model)))]))]));
+      _U.list([A2(renderContent,address,model)]))]));
    });
-   var Plant = F5(function (a,b,c,d,e) {    return {name: a,availability: b,usage: c,remarks: d,pics: e};});
-   var defPlant = A5(Plant,{ctor: "_Tuple2",_0: "defPlant",_1: ""},_U.list([]),{ctor: "_Tuple2",_0: "",_1: ""},{ctor: "_Tuple2",_0: "",_1: ""},_U.list([]));
-   var plantDecoder = A6($Json$Decode.object5,
+   var Plant = F6(function (a,b,c,d,e,f) {    return {name: a,availability: b,usage: c,remarks: d,mainPic: e,pics: f};});
+   var defPlant = A6(Plant,{ctor: "_Tuple2",_0: "defPlant",_1: ""},_U.list([]),{ctor: "_Tuple2",_0: "",_1: ""},{ctor: "_Tuple2",_0: "",_1: ""},"",_U.list([]));
+   var plantDecoder = A7($Json$Decode.object6,
    Plant,
    A2($Json$Decode._op[":="],
    "name",
@@ -11966,15 +11989,16 @@ Elm.Plants.make = function (_elm) {
    A2($Json$Decode._op[":="],
    "remarks",
    A3($Json$Decode.tuple2,F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};}),$Json$Decode.string,$Json$Decode.string)),
+   A2($Json$Decode._op[":="],"mainPic",$Json$Decode.string),
    A2($Json$Decode._op[":="],"pics",$Json$Decode.list($Json$Decode.string)));
    var requestContent = $Effects.task(A2($Task.map,UpdateContent,$Task.toResult(A2($Http.get,$Json$Decode.list(plantDecoder),"/plants_json"))));
    var update = F2(function (action,model) {
-      var _p7 = action;
-      switch (_p7.ctor)
+      var _p8 = action;
+      switch (_p8.ctor)
       {case "NoOp": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
-         case "Resize": return {ctor: "_Tuple2",_0: _U.update(model,{vpSize: _p7._0}),_1: $Effects.none};
+         case "Resize": return {ctor: "_Tuple2",_0: _U.update(model,{vpSize: _p8._0}),_1: $Effects.none};
          case "RequestContent": return {ctor: "_Tuple2",_0: model,_1: requestContent};
-         default: return {ctor: "_Tuple2",_0: _U.update(model,{content: _p7._0}),_1: $Effects.none};}
+         default: return {ctor: "_Tuple2",_0: _U.update(model,{content: _p8._0}),_1: $Effects.none};}
    });
    var Model = F3(function (a,b,c) {    return {desiredWidth: a,vpSize: b,content: c};});
    var initialModel = A3(Model,800,initVpSize,$Result.Ok(_U.list([defPlant])));
@@ -11989,6 +12013,7 @@ Elm.Plants.make = function (_elm) {
                                ,defPlant: defPlant
                                ,initialModel: initialModel
                                ,view: view
+                               ,renderContent: renderContent
                                ,NoOp: NoOp
                                ,Resize: Resize
                                ,RequestContent: RequestContent

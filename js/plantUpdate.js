@@ -10639,6 +10639,310 @@ Elm.Html.Events.make = function (_elm) {
                                     ,keyCode: keyCode
                                     ,Options: Options};
 };
+Elm.Native.Http = {};
+Elm.Native.Http.make = function(localRuntime) {
+
+	localRuntime.Native = localRuntime.Native || {};
+	localRuntime.Native.Http = localRuntime.Native.Http || {};
+	if (localRuntime.Native.Http.values)
+	{
+		return localRuntime.Native.Http.values;
+	}
+
+	var Dict = Elm.Dict.make(localRuntime);
+	var List = Elm.List.make(localRuntime);
+	var Maybe = Elm.Maybe.make(localRuntime);
+	var Task = Elm.Native.Task.make(localRuntime);
+
+
+	function send(settings, request)
+	{
+		return Task.asyncFunction(function(callback) {
+			var req = new XMLHttpRequest();
+
+			// start
+			if (settings.onStart.ctor === 'Just')
+			{
+				req.addEventListener('loadStart', function() {
+					var task = settings.onStart._0;
+					Task.spawn(task);
+				});
+			}
+
+			// progress
+			if (settings.onProgress.ctor === 'Just')
+			{
+				req.addEventListener('progress', function(event) {
+					var progress = !event.lengthComputable
+						? Maybe.Nothing
+						: Maybe.Just({
+							_: {},
+							loaded: event.loaded,
+							total: event.total
+						});
+					var task = settings.onProgress._0(progress);
+					Task.spawn(task);
+				});
+			}
+
+			// end
+			req.addEventListener('error', function() {
+				return callback(Task.fail({ ctor: 'RawNetworkError' }));
+			});
+
+			req.addEventListener('timeout', function() {
+				return callback(Task.fail({ ctor: 'RawTimeout' }));
+			});
+
+			req.addEventListener('load', function() {
+				return callback(Task.succeed(toResponse(req)));
+			});
+
+			req.open(request.verb, request.url, true);
+
+			// set all the headers
+			function setHeader(pair) {
+				req.setRequestHeader(pair._0, pair._1);
+			}
+			A2(List.map, setHeader, request.headers);
+
+			// set the timeout
+			req.timeout = settings.timeout;
+
+			// enable this withCredentials thing
+			req.withCredentials = settings.withCredentials;
+
+			// ask for a specific MIME type for the response
+			if (settings.desiredResponseType.ctor === 'Just')
+			{
+				req.overrideMimeType(settings.desiredResponseType._0);
+			}
+
+			// actuall send the request
+			if(request.body.ctor === "BodyFormData")
+			{
+				req.send(request.body.formData)
+			}
+			else
+			{
+				req.send(request.body._0);
+			}
+		});
+	}
+
+
+	// deal with responses
+
+	function toResponse(req)
+	{
+		var tag = req.responseType === 'blob' ? 'Blob' : 'Text'
+		var response = tag === 'Blob' ? req.response : req.responseText;
+		return {
+			_: {},
+			status: req.status,
+			statusText: req.statusText,
+			headers: parseHeaders(req.getAllResponseHeaders()),
+			url: req.responseURL,
+			value: { ctor: tag, _0: response }
+		};
+	}
+
+
+	function parseHeaders(rawHeaders)
+	{
+		var headers = Dict.empty;
+
+		if (!rawHeaders)
+		{
+			return headers;
+		}
+
+		var headerPairs = rawHeaders.split('\u000d\u000a');
+		for (var i = headerPairs.length; i--; )
+		{
+			var headerPair = headerPairs[i];
+			var index = headerPair.indexOf('\u003a\u0020');
+			if (index > 0)
+			{
+				var key = headerPair.substring(0, index);
+				var value = headerPair.substring(index + 2);
+
+				headers = A3(Dict.update, key, function(oldValue) {
+					if (oldValue.ctor === 'Just')
+					{
+						return Maybe.Just(value + ', ' + oldValue._0);
+					}
+					return Maybe.Just(value);
+				}, headers);
+			}
+		}
+
+		return headers;
+	}
+
+
+	function multipart(dataList)
+	{
+		var formData = new FormData();
+
+		while (dataList.ctor !== '[]')
+		{
+			var data = dataList._0;
+			if (data.ctor === 'StringData')
+			{
+				formData.append(data._0, data._1);
+			}
+			else
+			{
+				var fileName = data._1.ctor === 'Nothing'
+					? undefined
+					: data._1._0;
+				formData.append(data._0, data._2, fileName);
+			}
+			dataList = dataList._1;
+		}
+
+		return { ctor: 'BodyFormData', formData: formData };
+	}
+
+
+	function uriEncode(string)
+	{
+		return encodeURIComponent(string);
+	}
+
+	function uriDecode(string)
+	{
+		return decodeURIComponent(string);
+	}
+
+	return localRuntime.Native.Http.values = {
+		send: F2(send),
+		multipart: multipart,
+		uriEncode: uriEncode,
+		uriDecode: uriDecode
+	};
+};
+
+Elm.Http = Elm.Http || {};
+Elm.Http.make = function (_elm) {
+   "use strict";
+   _elm.Http = _elm.Http || {};
+   if (_elm.Http.values) return _elm.Http.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Dict = Elm.Dict.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Native$Http = Elm.Native.Http.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm),
+   $Task = Elm.Task.make(_elm),
+   $Time = Elm.Time.make(_elm);
+   var _op = {};
+   var send = $Native$Http.send;
+   var BadResponse = F2(function (a,b) {    return {ctor: "BadResponse",_0: a,_1: b};});
+   var UnexpectedPayload = function (a) {    return {ctor: "UnexpectedPayload",_0: a};};
+   var handleResponse = F2(function (handle,response) {
+      if (_U.cmp(200,response.status) < 1 && _U.cmp(response.status,300) < 0) {
+            var _p0 = response.value;
+            if (_p0.ctor === "Text") {
+                  return handle(_p0._0);
+               } else {
+                  return $Task.fail(UnexpectedPayload("Response body is a blob, expecting a string."));
+               }
+         } else return $Task.fail(A2(BadResponse,response.status,response.statusText));
+   });
+   var NetworkError = {ctor: "NetworkError"};
+   var Timeout = {ctor: "Timeout"};
+   var promoteError = function (rawError) {    var _p1 = rawError;if (_p1.ctor === "RawTimeout") {    return Timeout;} else {    return NetworkError;}};
+   var fromJson = F2(function (decoder,response) {
+      var decode = function (str) {
+         var _p2 = A2($Json$Decode.decodeString,decoder,str);
+         if (_p2.ctor === "Ok") {
+               return $Task.succeed(_p2._0);
+            } else {
+               return $Task.fail(UnexpectedPayload(_p2._0));
+            }
+      };
+      return A2($Task.andThen,A2($Task.mapError,promoteError,response),handleResponse(decode));
+   });
+   var RawNetworkError = {ctor: "RawNetworkError"};
+   var RawTimeout = {ctor: "RawTimeout"};
+   var Blob = function (a) {    return {ctor: "Blob",_0: a};};
+   var Text = function (a) {    return {ctor: "Text",_0: a};};
+   var Response = F5(function (a,b,c,d,e) {    return {status: a,statusText: b,headers: c,url: d,value: e};});
+   var defaultSettings = {timeout: 0,onStart: $Maybe.Nothing,onProgress: $Maybe.Nothing,desiredResponseType: $Maybe.Nothing,withCredentials: false};
+   var post = F3(function (decoder,url,body) {
+      var request = {verb: "POST",headers: _U.list([]),url: url,body: body};
+      return A2(fromJson,decoder,A2(send,defaultSettings,request));
+   });
+   var Settings = F5(function (a,b,c,d,e) {    return {timeout: a,onStart: b,onProgress: c,desiredResponseType: d,withCredentials: e};});
+   var multipart = $Native$Http.multipart;
+   var FileData = F3(function (a,b,c) {    return {ctor: "FileData",_0: a,_1: b,_2: c};});
+   var BlobData = F3(function (a,b,c) {    return {ctor: "BlobData",_0: a,_1: b,_2: c};});
+   var blobData = BlobData;
+   var StringData = F2(function (a,b) {    return {ctor: "StringData",_0: a,_1: b};});
+   var stringData = StringData;
+   var BodyBlob = function (a) {    return {ctor: "BodyBlob",_0: a};};
+   var BodyFormData = {ctor: "BodyFormData"};
+   var ArrayBuffer = {ctor: "ArrayBuffer"};
+   var BodyString = function (a) {    return {ctor: "BodyString",_0: a};};
+   var string = BodyString;
+   var Empty = {ctor: "Empty"};
+   var empty = Empty;
+   var getString = function (url) {
+      var request = {verb: "GET",headers: _U.list([]),url: url,body: empty};
+      return A2($Task.andThen,A2($Task.mapError,promoteError,A2(send,defaultSettings,request)),handleResponse($Task.succeed));
+   };
+   var get = F2(function (decoder,url) {
+      var request = {verb: "GET",headers: _U.list([]),url: url,body: empty};
+      return A2(fromJson,decoder,A2(send,defaultSettings,request));
+   });
+   var Request = F4(function (a,b,c,d) {    return {verb: a,headers: b,url: c,body: d};});
+   var uriDecode = $Native$Http.uriDecode;
+   var uriEncode = $Native$Http.uriEncode;
+   var queryEscape = function (string) {    return A2($String.join,"+",A2($String.split,"%20",uriEncode(string)));};
+   var queryPair = function (_p3) {    var _p4 = _p3;return A2($Basics._op["++"],queryEscape(_p4._0),A2($Basics._op["++"],"=",queryEscape(_p4._1)));};
+   var url = F2(function (baseUrl,args) {
+      var _p5 = args;
+      if (_p5.ctor === "[]") {
+            return baseUrl;
+         } else {
+            return A2($Basics._op["++"],baseUrl,A2($Basics._op["++"],"?",A2($String.join,"&",A2($List.map,queryPair,args))));
+         }
+   });
+   var TODO_implement_file_in_another_library = {ctor: "TODO_implement_file_in_another_library"};
+   var TODO_implement_blob_in_another_library = {ctor: "TODO_implement_blob_in_another_library"};
+   return _elm.Http.values = {_op: _op
+                             ,getString: getString
+                             ,get: get
+                             ,post: post
+                             ,send: send
+                             ,url: url
+                             ,uriEncode: uriEncode
+                             ,uriDecode: uriDecode
+                             ,empty: empty
+                             ,string: string
+                             ,multipart: multipart
+                             ,stringData: stringData
+                             ,defaultSettings: defaultSettings
+                             ,fromJson: fromJson
+                             ,Request: Request
+                             ,Settings: Settings
+                             ,Response: Response
+                             ,Text: Text
+                             ,Blob: Blob
+                             ,Timeout: Timeout
+                             ,NetworkError: NetworkError
+                             ,UnexpectedPayload: UnexpectedPayload
+                             ,BadResponse: BadResponse
+                             ,RawTimeout: RawTimeout
+                             ,RawNetworkError: RawNetworkError};
+};
 Elm.Svg = Elm.Svg || {};
 Elm.Svg.make = function (_elm) {
    "use strict";
@@ -11457,6 +11761,9 @@ Elm.PlantUpdate.make = function (_elm) {
    $Effects = Elm.Effects.make(_elm),
    $Html = Elm.Html.make(_elm),
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $Http = Elm.Http.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
@@ -11502,32 +11809,157 @@ Elm.PlantUpdate.make = function (_elm) {
                                                            ,_0: typeof v[0] === "number" ? v[0] : _U.badPort("a number",v[0])
                                                            ,_1: typeof v[1] === "number" ? v[1] : _U.badPort("a number",v[1])} : _U.badPort("an array",v);
    });
+   var locationsDecoder = $Json$Decode.list($Json$Decode.string);
+   var UpdateLocations = function (a) {    return {ctor: "UpdateLocations",_0: a};};
+   var requestLocations = $Effects.task(A2($Task.map,UpdateLocations,$Task.toResult(A2($Http.get,locationsDecoder,"/locations"))));
    var update = F2(function (action,model) {
       var _p6 = action;
-      if (_p6.ctor === "NoOp") {
-            return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
-         } else {
-            return {ctor: "_Tuple2",_0: _U.update(model,{vpSize: _p6._0}),_1: $Effects.none};
-         }
+      switch (_p6.ctor)
+      {case "NoOp": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
+         case "Resize": return {ctor: "_Tuple2",_0: _U.update(model,{vpSize: _p6._0}),_1: $Effects.none};
+         case "AddLoc": return {ctor: "_Tuple2"
+                               ,_0: _U.update(model,
+                               {nbrLoc: _U.cmp(function (_) {    return _.nbrLoc;}(model),20) < 0 ? function (_) {
+                                  return _.nbrLoc;
+                               }(model) + 1 : function (_) {
+                                  return _.nbrLoc;
+                               }(model)})
+                               ,_1: $Effects.none};
+         case "RemoveLoc": return {ctor: "_Tuple2"
+                                  ,_0: _U.update(model,
+                                  {nbrLoc: _U.cmp(function (_) {    return _.nbrLoc;}(model),0) > 0 ? function (_) {
+                                     return _.nbrLoc;
+                                  }(model) - 1 : function (_) {
+                                     return _.nbrLoc;
+                                  }(model)})
+                                  ,_1: $Effects.none};
+         case "AddPic": return {ctor: "_Tuple2"
+                               ,_0: _U.update(model,
+                               {nbrPic: _U.cmp(function (_) {    return _.nbrPic;}(model),5) < 0 ? function (_) {
+                                  return _.nbrPic;
+                               }(model) + 1 : function (_) {
+                                  return _.nbrPic;
+                               }(model)})
+                               ,_1: $Effects.none};
+         case "RemovePic": return {ctor: "_Tuple2"
+                                  ,_0: _U.update(model,
+                                  {nbrPic: _U.cmp(function (_) {    return _.nbrPic;}(model),0) > 0 ? function (_) {
+                                     return _.nbrPic;
+                                  }(model) - 1 : function (_) {
+                                     return _.nbrPic;
+                                  }(model)})
+                                  ,_1: $Effects.none};
+         case "RequestLocations": return {ctor: "_Tuple2",_0: model,_1: requestLocations};
+         default: return {ctor: "_Tuple2",_0: _U.update(model,{listLoc: _p6._0}),_1: $Effects.none};}
    });
+   var RequestLocations = {ctor: "RequestLocations"};
+   var RemovePic = {ctor: "RemovePic"};
+   var AddPic = {ctor: "AddPic"};
+   var RemoveLoc = {ctor: "RemoveLoc"};
+   var AddLoc = {ctor: "AddLoc"};
    var Resize = function (a) {    return {ctor: "Resize",_0: a};};
    var vpSizeUpdate = A2($Signal.map,function (v) {    return Resize(v);},vpSizePort);
    var NoOp = {ctor: "NoOp"};
+   var renderPics = F2(function (address,model) {
+      var renderPic = function (n) {
+         return A2($Html.input,_U.list([$Html$Attributes.type$("file"),$Html$Attributes.name(A2($Basics._op["++"],"file",$Basics.toString(n)))]),_U.list([]));
+      };
+      var go = function (n) {    return _U.eq(n,0) ? _U.list([]) : A2($List._op["::"],renderPic(n),go(n - 1));};
+      return A2($Html.div,
+      _U.list([$Html$Attributes.id("picsInput")]),
+      A2($Basics._op["++"],
+      A2($Basics._op["++"],
+      _U.list([A2($Html.label,_U.list([$Html$Attributes.$for("mainPicture")]),_U.list([$Html.text("main picture: ")]))
+              ,A2($Html.input,_U.list([$Html$Attributes.type$("file"),$Html$Attributes.name("mainPicture")]),_U.list([]))
+              ,A2($Html.br,_U.list([]),_U.list([]))
+              ,$Html.text("complementary pictures: (5 max)")]),
+      go(function (_) {    return _.nbrPic;}(model))),
+      _U.list([A2($Html.br,_U.list([]),_U.list([]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,AddPic),$Html$Attributes.type$("button")]),_U.list([$Html.text("add one")]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,RemovePic),$Html$Attributes.type$("button")]),_U.list([$Html.text("remove one")]))])));
+   });
+   var options = function (model) {
+      var _p7 = function (_) {    return _.listLoc;}(model);
+      if (_p7.ctor === "Err") {
+            return _U.list([]);
+         } else {
+            return A2($List.map,function (s) {    return A2($Html.option,_U.list([$Html$Attributes.value(s)]),_U.list([$Html.text(s)]));},_p7._0);
+         }
+   };
+   var renderLocs = F2(function (address,model) {
+      var renderLoc = function (n) {
+         return _U.list([A2($Html.label,
+                        _U.list([$Html$Attributes.$for(A2($Basics._op["++"],"loc",$Basics.toString(n)))]),
+                        _U.list([$Html.text(A2($Basics._op["++"],"location ",A2($Basics._op["++"],$Basics.toString(n),": ")))]))
+                        ,A2($Html.select,
+                        _U.list([$Html$Attributes.name(A2($Basics._op["++"],"loc",$Basics.toString(n)))
+                                ,$Html$Attributes.id(A2($Basics._op["++"],"loc",$Basics.toString(n)))]),
+                        options(model))
+                        ,A2($Html.label,
+                        _U.list([$Html$Attributes.id("dateLbl")]),
+                        _U.list([A2($Html.span,_U.list([]),_U.list([$Html.text("date: ")]))
+                                ,A2($Html.input,
+                                _U.list([$Html$Attributes.type$("date")
+                                        ,$Html$Attributes.id("dateInput")
+                                        ,$Html$Attributes.name(A2($Basics._op["++"],"date",$Basics.toString(n)))]),
+                                _U.list([]))]))
+                        ,A2($Html.br,_U.list([]),_U.list([]))]);
+      };
+      var go = function (n) {    return _U.eq(n,0) ? _U.list([]) : A2($List._op["::"],renderLoc(n),go(n - 1));};
+      return A2($Html.div,
+      _U.list([$Html$Attributes.id("locsAvail")]),
+      A2($Basics._op["++"],
+      $List.concat($List.reverse(go(function (_) {    return _.nbrLoc;}(model)))),
+      _U.list([A2($Html.br,_U.list([]),_U.list([]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,AddLoc),$Html$Attributes.type$("button")]),_U.list([$Html.text("add one")]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,RemoveLoc),$Html$Attributes.type$("button")]),_U.list([$Html.text("remove one")]))])));
+   });
    var view = F2(function (address,model) {
       return A2($Html.div,
       _U.list([$Html$Attributes.id("container"),computeWMargin(function (_) {    return _.vpSize;}(model))]),
       _U.list([A2($Html.div,
       _U.list([$Html$Attributes.id("mapApp"),computeVMargin(function (_) {    return _.vpSize;}(model))]),
       _U.list([A2($Html.form,
-      _U.list([$Html$Attributes.action("/plant_update"),$Html$Attributes.enctype("multipart/form-data"),$Html$Attributes.method("post")]),
-      _U.list([A2($Html.div,_U.list([]),_U.list([A2($Html.input,_U.list([$Html$Attributes.type$("file"),$Html$Attributes.name("file")]),_U.list([]))]))
+      _U.list([$Html$Attributes.id("plantUpdateForm")
+              ,$Html$Attributes.action("/plant_update")
+              ,$Html$Attributes.enctype("multipart/form-data")
+              ,$Html$Attributes.method("post")]),
+      _U.list([A2($Html.div,
+              _U.list([$Html$Attributes.id("names")]),
+              _U.list([A2($Html.label,_U.list([$Html$Attributes.$for("plantName")]),_U.list([$Html.text("plant name:")]))
+                      ,A2($Html.input,_U.list([$Html$Attributes.type$("text"),$Html$Attributes.name("plantName")]),_U.list([]))
+                      ,A2($Html.label,_U.list([$Html$Attributes.$for("plantNameChinese")]),_U.list([$Html.text("plant name (chinese):")]))
+                      ,A2($Html.input,_U.list([$Html$Attributes.type$("text"),$Html$Attributes.name("plantNameChinese")]),_U.list([]))]))
+              ,A2($Html.br,_U.list([]),_U.list([]))
+              ,A2(renderLocs,address,model)
+              ,A2($Html.br,_U.list([]),_U.list([]))
               ,A2($Html.div,
-              _U.list([]),
-              _U.list([A2($Html.input,_U.list([$Html$Attributes.type$("submit"),$Html$Attributes.value("Upload")]),_U.list([]))]))]))]))]));
+              _U.list([$Html$Attributes.id("usage")]),
+              _U.list([A2($Html.label,_U.list([$Html$Attributes.$for("usage")]),_U.list([$Html.text("usage: ")]))
+                      ,A2($Html.input,_U.list([$Html$Attributes.type$("textarea"),$Html$Attributes.name("usage"),$Html$Attributes.value("")]),_U.list([]))]))
+              ,A2($Html.br,_U.list([]),_U.list([]))
+              ,A2($Html.div,
+              _U.list([$Html$Attributes.id("remarks")]),
+              _U.list([A2($Html.label,_U.list([$Html$Attributes.$for("remarks")]),_U.list([$Html.text("remarks: ")]))
+                      ,A2($Html.input,_U.list([$Html$Attributes.type$("textarea"),$Html$Attributes.name("remarks"),$Html$Attributes.value("")]),_U.list([]))]))
+              ,A2($Html.br,_U.list([]),_U.list([]))
+              ,A2(renderPics,address,model)
+              ,A2($Html.br,_U.list([]),_U.list([]))
+              ,A2($Html.div,_U.list([]),_U.list([A2($Html.input,_U.list([$Html$Attributes.type$("submit"),$Html$Attributes.value("Upload")]),_U.list([]))]))
+              ,A2($Html.input,
+              _U.list([$Html$Attributes.type$("hidden")
+                      ,$Html$Attributes.name("nbrLoc")
+                      ,$Html$Attributes.value($Basics.toString(function (_) {    return _.nbrLoc;}(model)))]),
+              _U.list([]))
+              ,A2($Html.input,
+              _U.list([$Html$Attributes.type$("hidden")
+                      ,$Html$Attributes.name("nbrPic")
+                      ,$Html$Attributes.value($Basics.toString(function (_) {    return _.nbrPic;}(model)))]),
+              _U.list([]))]))]))]));
    });
-   var Model = F2(function (a,b) {    return {desiredWidth: a,vpSize: b};});
-   var initialModel = A2(Model,800,initVpSize);
-   var app = $StartApp.start({init: {ctor: "_Tuple2",_0: initialModel,_1: $Effects.none},view: view,update: update,inputs: _U.list([vpSizeUpdate])});
+   var Model = F5(function (a,b,c,d,e) {    return {desiredWidth: a,vpSize: b,nbrLoc: c,nbrPic: d,listLoc: e};});
+   var initialModel = A5(Model,800,initVpSize,1,0,$Result.Ok(_U.list([])));
+   var app = $StartApp.start({init: {ctor: "_Tuple2",_0: initialModel,_1: requestLocations},view: view,update: update,inputs: _U.list([vpSizeUpdate])});
    var main = app.html;
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
    var subMenu = _U.list([]);
@@ -11536,9 +11968,20 @@ Elm.PlantUpdate.make = function (_elm) {
                                     ,Model: Model
                                     ,initialModel: initialModel
                                     ,view: view
+                                    ,renderLocs: renderLocs
+                                    ,options: options
+                                    ,renderPics: renderPics
                                     ,NoOp: NoOp
                                     ,Resize: Resize
+                                    ,AddLoc: AddLoc
+                                    ,RemoveLoc: RemoveLoc
+                                    ,AddPic: AddPic
+                                    ,RemovePic: RemovePic
+                                    ,RequestLocations: RequestLocations
+                                    ,UpdateLocations: UpdateLocations
                                     ,update: update
+                                    ,requestLocations: requestLocations
+                                    ,locationsDecoder: locationsDecoder
                                     ,vpSizeUpdate: vpSizeUpdate
                                     ,app: app
                                     ,main: main

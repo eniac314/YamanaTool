@@ -36,11 +36,12 @@ type alias Plant =
   , availability : List (Location,Date) 
   , usage : (String,String)
   , remarks : (String,String)
+  , mainPic : Picture
   , pics : List Picture
   }
 
-defPlant = Plant ("defPlant","") [] ("","") ("","") [] 
-
+defPlant = Plant ("defPlant","") [] ("","") ("","") "" [] 
+  
 type alias Location = String
 type alias Picture  = String
 
@@ -51,9 +52,26 @@ initialModel = Model 800 initVpSize (Ok [defPlant])
 view address model =
   div [id "container",computeWMargin (.vpSize model)]
       [div [id "mapApp", computeVMargin (.vpSize model)] 
-           [ text (toString (.content model))
-           ]
+           [renderContent address model]
       ]
+
+renderContent : Signal.Address Action -> Model -> Html
+renderContent address model = 
+  case .content model of 
+    Err e -> div [] [text (toString e)]
+    Ok  c ->
+      div [ id "plantList"]
+          
+
+
+          [ table []
+                  (List.map 
+                    (\ p -> 
+                      tr []
+                          [ td [] [ text (toString (.name p))]
+                          , td [] [ img [src ("/img/" ++ (.mainPic p))] []]
+                          ]) c) 
+          ]  
   
 type Action = 
     NoOp
@@ -118,7 +136,7 @@ requestContent =
 
 plantDecoder : Json.Decoder Plant
 plantDecoder = 
-  Json.object5 
+  Json.object6 
     Plant
     ("name" := Json.tuple2 (,) Json.string Json.string)
     ("availability" := Json.list
@@ -130,6 +148,7 @@ plantDecoder =
     )
     ("usage" := Json.tuple2 (,) Json.string Json.string)
     ("remarks" := Json.tuple2 (,) Json.string Json.string)
+    ("mainPic" := Json.string)
     ("pics" := Json.list Json.string)
 
 

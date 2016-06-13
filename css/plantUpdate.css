@@ -1,0 +1,37 @@
+#plantUpdateForm div{
+  background-color: #99994d;
+  display: block;
+  padding: 0.5em;
+  border-radius: 0.2em;
+  box-shadow: 5px 5px 5px black;
+  width: 50%;
+  /*border-style: solid;*/
+  /*border-color: black; */
+}
+
+#plantUpdateForm label{
+  padding: 0.2em;
+}
+
+#names input{
+  display: block;
+}
+
+#remarks input{
+  display: block;
+}
+
+#picsInput input{
+  display: block;
+}
+
+#dateInput{
+	display: inline;
+  /*background-color: red;*/
+  width: 100px;
+}
+
+#dateLbl{
+  display: inline;
+  white-space: nowrap;
+}

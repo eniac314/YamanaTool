@@ -27,8 +27,10 @@ import string
 import time
 import json
 import logging
+import pickle
 from datetime import datetime
 import mimetypes
+import copy
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape=True, trim_blocks=True) 
@@ -99,7 +101,19 @@ class UsrEntry(ndb.Model):
 
 class Images(ndb.Model):
 	file_name = ndb.StringProperty()
-	blob = ndb.BlobProperty()
+	imgData = ndb.BlobProperty()
+	# thumbnail = ndb.BlobProperty()
+
+class Plant(ndb.Model):
+	plantName = ndb.StringProperty()
+	plantNameChinese = ndb.StringProperty()
+	remarks = ndb.TextProperty()
+	usage = ndb.TextProperty()
+	availability = ndb.TextProperty()
+	mainPic = ndb.StringProperty()
+	pics = ndb.StringProperty()
+	created = ndb.DateTimeProperty(auto_now_add = True)
+
 
 class UsrAccHandler(Handler,Validate):
 
@@ -234,7 +248,7 @@ class PlantUpdateHandler(Handler,Validate):
 		if usr and self.checkValue(usr,value):
 			self.render("plantUpdate.html",
 						 usr=usr,
-						 extraCss = "plants.css",
+						 extraCss = "plantUpdate.css",
 						 extraJs = "plantUpdate.js"
 						)
 		else:
@@ -242,21 +256,104 @@ class PlantUpdateHandler(Handler,Validate):
 
 	def post(self):
 
-		file_upload = self.request.POST.get("file", None)
-		file_name = file_upload.filename
+		plantName = self.request.get("plantName")
+		plantNameChinese = self.request.get("plantNameChinese")
+		remarks = self.request.get("remarks")
+		usage = self.request.get("usage")
+		nbrLoc = int(self.request.get("nbrLoc"))
+		nbrPic = int(self.request.get("nbrPic"))
+
+		locs = [(self.request.get('loc' + str(l)), self.request.get('date' + str(l))) for l in range (1,nbrLoc+1)]
 		
-		img = images.Image(file_upload.file.read())
-		img.resize(width=80, height=100)
-		img.im_feeling_lucky()
-		thumbnail = img.execute_transforms(output_encoding=images.JPEG)
+		mainPic = self.request.POST.get("mainPicture", None)
+		
+		pics = [(self.request.POST.get('file' + str(p), None)) for p in range (1,nbrPic + 1)]
+
+		newPlant = Plant( plantName = plantName
+						, plantNameChinese = plantNameChinese
+						, remarks = remarks
+						, usage = usage
+						, availability = pickle.dumps(locs)
+						, mainPic = mainPic.filename
+						, pics = pickle.dumps([p.filename for p in pics])
+						)
+		
+		self.newImage(mainPic)
+		[self.newImage(p) for p in pics]
+
+		newPlant.put()
+
+		self.write(str(newPlant))
+
+		# data = images.Image(mainPic.file.read())
+		# data.resize(width = 800, height = 600)
+		# data.im_feeling_lucky()
+		# self.response.write(data.execute_transforms(output_encoding=images.JPEG))
+	
+	def imgProcess(self,file,w,h):
+		data = images.Image(file.file.read())
+		data.resize(width = w, height = h)
+		data.im_feeling_lucky()
+		return (data.execute_transforms(output_encoding=images.JPEG))
+
+	def newImage(self,file):
+		
+		pic = Images( id = file.filename
+					  , file_name = file.filename
+					  , imgData = self.imgProcess(file,800,600)
+					  # , thumbnail = None #self.imgProcess(file,250,200)
+					  )
+		pic.put()
+		return pic 
 
 
-		image = Images(id=file_name, file_name=file_name, blob=thumbnail)
+		# file_upload = self.request.POST.get("file", None)
+		# file_name = file_upload.filename
+		
+		# img = images.Image(file_upload.file.read())
+		# img.resize(width=80, height=100)
+		# img.im_feeling_lucky()
+		# thumbnail = img.execute_transforms(output_encoding=images.JPEG)
 
-		image.put()
 
-		self.response.headers[b'Content-Type'] = mimetypes.guess_type(image.file_name)[0]
-		self.response.write(image.blob)
+		# image = Images(id=file_name, file_name=file_name, blob=thumbnail)
+
+		# image.put()
+
+		# self.response.headers[b'Content-Type'] = mimetypes.guess_type(image.file_name)[0]
+		# self.response.write(image.blob)
+
+class LocationJsonHandler(Handler,Validate):
+	def get(self):
+		value = self.request.cookies.get('name')
+		usr = value.split('|')[0] if value else None
+
+		if usr and self.checkValue(usr,value):
+			
+			locs = [ '食物森林(鑰匙孔花園)'
+				   , '螺旋花園'
+				   , '麵包窯'
+				   , '蚯蚓公寓'
+				   , '生態濕地'
+				   , '堆肥廁所'
+				   , '蔓陀蘿花園'
+				   , '香蕉圈堆肥'
+				   , '生態池'
+				   , '香蕉圈浴室'
+				   , '柴薪堆放區'
+				   , '自然建築(主屋，風雨教室)'
+				   , '集水渠(標示線條的地方)'
+				   , '香蕉圈'
+				   , '天然堆肥'
+				   , '桑椹'
+				   , '防風林，緩衝帶，生物棲息地'
+				   ]
+			
+			self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
+			self.write(str(json.dumps(locs)))
+
+		else:
+			self.redirect("/login")
 
 class PlantsJsonHandler(Handler,Validate):
 	def get(self):
@@ -265,16 +362,41 @@ class PlantsJsonHandler(Handler,Validate):
 
 		if usr and self.checkValue(usr,value):
 			
-			test = {'name':('rose','玫瑰花')
-				   ,'availability':[('greenhouse','05/12/')]
-				   ,'usage':('w','w')
-				   ,'remarks':('w','w')
-				   ,'pics':[]
-				   }
+			# test = {'name':('rose','玫瑰花')
+			# 	   ,'availability':[('greenhouse','05/12/')]
+			# 	   ,'usage':('w','w')
+			# 	   ,'remarks':('w','w')
+			# 	   ,'pics':[]
+			# 	   }
 			
-			self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
-			self.write(str(json.dumps([test])))
 
+			plants = Plant.query()
+			
+			resp = [{'name':(p.plantName,p.plantNameChinese)
+					,'availability':pickle.loads(p.availability)
+					,'usage':(p.usage,"")
+					,'remarks':(p.remarks,"")
+					,'mainPic':p.mainPic 
+					,'pics':pickle.loads(p.pics)
+					} for p in plants]
+
+
+			self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
+			self.write(str(json.dumps(resp)))
+
+		else:
+			self.redirect("/login")
+
+class ImgHandler(Handler,Validate):
+	def get(self, picname):
+		value = self.request.cookies.get('name')
+		usr = value.split('|')[0] if value else None
+
+		if usr and self.checkValue(usr,value):
+			pic = Images.query(Images.file_name == picname).get()
+			self.response.headers[b'Content-Type'] = mimetypes.guess_type(pic.file_name)[0]
+			self.response.write(pic.imgData)
+			# self.write(picname)
 		else:
 			self.redirect("/login")
 
@@ -286,5 +408,8 @@ app = webapp2.WSGIApplication([
 	('/signup',UsrAccHandler),
 	('/login',LoginHandler),
 	('/plant_update',PlantUpdateHandler),
+	('/locations', LocationJsonHandler),
+	('/img/(\w*.\w*)', ImgHandler),
 	('/logout',LogoutHandler)
+
 ], debug=True)
