@@ -69,7 +69,7 @@ renderContent address model =
                     (\ p -> 
                       tr []
                           [ td [] [ text (toString (.name p))]
-                          , td [] [ img [src ("/img/" ++ (.mainPic p))] []]
+                          , td [] [ img [src ("/thumbs/" ++ (.mainPic p))] []]
                           ]) c) 
           ]  
   

@@ -11960,7 +11960,7 @@ Elm.Plants.make = function (_elm) {
                        ,A2($Html.td,
                        _U.list([]),
                        _U.list([A2($Html.img,
-                       _U.list([$Html$Attributes.src(A2($Basics._op["++"],"/img/",function (_) {    return _.mainPic;}(p)))]),
+                       _U.list([$Html$Attributes.src(A2($Basics._op["++"],"/thumbs/",function (_) {    return _.mainPic;}(p)))]),
                        _U.list([]))]))]));
             },
             _p7._0))]));

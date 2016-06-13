@@ -294,6 +294,7 @@ class PlantUpdateHandler(Handler,Validate):
 		data = images.Image(file.file.read())
 		data.resize(width = w, height = h)
 		data.im_feeling_lucky()
+
 		return (data.execute_transforms(output_encoding=images.JPEG))
 
 	def newImage(self,file):
@@ -400,6 +401,25 @@ class ImgHandler(Handler,Validate):
 		else:
 			self.redirect("/login")
 
+class ThumbsHandler(Handler,Validate):
+	def get(self, picname):
+		value = self.request.cookies.get('name')
+		usr = value.split('|')[0] if value else None
+
+		if usr and self.checkValue(usr,value):
+			pic = Images.query(Images.file_name == picname).get()
+			
+			data = images.Image(pic.imgData)
+			data.resize(width = 250, height = 200)
+			data.im_feeling_lucky()
+			res = data.execute_transforms(output_encoding=images.JPEG)
+
+			self.response.headers[b'Content-Type'] = mimetypes.guess_type(pic.file_name)[0]
+			self.response.write(res)
+			# self.write(picname)
+		else:
+			self.redirect("/login")
+
 app = webapp2.WSGIApplication([
 	('/', MainHandler),
 	('/map',MapHandler),
@@ -409,6 +429,7 @@ app = webapp2.WSGIApplication([
 	('/login',LoginHandler),
 	('/plant_update',PlantUpdateHandler),
 	('/locations', LocationJsonHandler),
+	('/thumbs/(\w*.\w*)', ThumbsHandler),
 	('/img/(\w*.\w*)', ImgHandler),
 	('/logout',LogoutHandler)
 
